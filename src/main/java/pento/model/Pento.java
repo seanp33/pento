@@ -34,4 +34,13 @@ public final class Pento {
     public String getOrigin() {
         return origin;
     }
+
+    @Override
+    public String toString() {
+        return "Pento{" +
+                "statement=" + statement +
+                ", timestamp=" + timestamp +
+                ", origin='" + origin + '\'' +
+                '}';
+    }
 }

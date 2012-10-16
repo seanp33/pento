@@ -31,4 +31,13 @@ public class Statement {
     public Object getObject() {
         return object;
     }
+
+    @Override
+    public String toString() {
+        return "Statement{" +
+                "subject='" + subject + '\'' +
+                ", predicate='" + predicate + '\'' +
+                ", object=" + object +
+                '}';
+    }
 }

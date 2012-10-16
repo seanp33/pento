@@ -1,15 +1,14 @@
 package pento.store;
 
 
-import static org.junit.Assert.*;
-
+import org.junit.Ignore;
 import org.junit.Test;
 import pento.handler.PentoWriteHandler;
-import pento.model.Confidence;
 import pento.model.Pento;
 import pento.model.Statement;
 import pento.store.mock.MockPentoStore;
 
+@Ignore
 public class MockPentoStoreTest {
 
     public static final String ORIGIN = "unit test";

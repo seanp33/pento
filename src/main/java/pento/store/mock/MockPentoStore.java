@@ -17,7 +17,6 @@ public class MockPentoStore implements PentoStore {
 
     @Override
     public void write(Pento pento, PentoWriteHandler handler) {
-        System.out.println("submitting write...");
         engine.submitWrite(pento, handler);
     }
 
@@ -46,22 +45,20 @@ public class MockPentoStore implements PentoStore {
                 isRunning = true;
                 Map.Entry<Future<Pento>, PentoWriteHandler> entry = it.next();
                 Future<Pento> future = entry.getKey();
-                if (future.isDone()) {
-                    try {
-                        Pento p = future.get(5, TimeUnit.SECONDS);
-                        System.out.println("obtained Pento : " + p);
-                        entry.getValue().success(p, new MockPentoResponse());
-                        it.remove();
-                    } catch (InterruptedException e) {
-                        // TODO: panic
-                    } catch (ExecutionException e) {
-                        // TODO: panic
-                    } catch (TimeoutException e) {
-                        // TODO: panic
-                    }
+                try {
+                    Pento p = future.get(100, TimeUnit.MILLISECONDS);
+                    entry.getValue().success(p, new MockPentoResponse());
+                    it.remove();
+                } catch (InterruptedException e) {
+                    // TODO: panic
+                } catch (ExecutionException e) {
+                    // TODO: panic
+                } catch (TimeoutException e) {
+                    // TODO: panic
                 }
             }
 
+            isRunning = false;
             System.out.println("engine now idle...waiting for additional submissions");
 
         }
