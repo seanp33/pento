@@ -1,0 +1,11 @@
+*.*~
+*~
+*#*#
+*.iml
+*.ipr
+*.iws
+*.log
+.idea
+target
+dependency-reduced-pom.xml
+derby.log
