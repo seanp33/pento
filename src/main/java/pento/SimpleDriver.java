@@ -12,9 +12,15 @@ public class SimpleDriver {
         MockPentoStore store = new MockPentoStore();
 
         PentoWriteHandler handler = new PentoWriteHandler<Pento>() {
+	    int count = 0;
+	    
             @Override
             public void success(Pento pento, PentoResponse response) {
-                System.out.println("Success! Pento written with confidence " + response.getConfidence());
+                count += 1;
+		System.out.println("Success! Pento written with confidence " + response.getConfidence());
+		if(count == 9){
+		    System.out.println("would need to store.close()");
+		}
             }
 
             @Override

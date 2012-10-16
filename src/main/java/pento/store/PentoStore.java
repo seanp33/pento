@@ -17,4 +17,6 @@ public interface PentoStore {
     void write(Pento pento, PentoWriteHandler handler);
 
     void read(PentoQuery query, PentoReadHandler handler);
+
+    void close() throws Exception;
 }
