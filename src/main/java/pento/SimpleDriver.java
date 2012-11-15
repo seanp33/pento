@@ -17,11 +17,18 @@ public class SimpleDriver {
             @Override
             public void success(PentoResponse response) {
                 count += 1;
-                System.out.println("Success! Pento written with confidence " + response.getConfidence());
+                StringBuffer sb = new StringBuffer();
+                sb.append("Success! Pento written:\n");
+                sb.append(response.getPento());
+                sb.append("\n");
+                sb.append(response.getConfidence());
+                sb.append("\n------------------------\n");
+                System.out.println(sb.toString());
                 if (count == 10) {
                     System.out.println("would need to store.close()");
                     try {
                         store.close();
+                        System.exit(0);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
