@@ -1,9 +1,9 @@
 package pento.store;
 
-import pento.op.PentoQuery;
 import pento.handler.PentoReadHandler;
 import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
+import pento.op.PentoQuery;
 
 /**
  * Created by IntelliJ IDEA.

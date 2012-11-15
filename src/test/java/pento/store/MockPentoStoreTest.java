@@ -17,14 +17,14 @@ public class MockPentoStoreTest {
     public void base_test_of_one_request() throws Exception {
         MockPentoStore store = new MockPentoStore();
 
-        PentoWriteHandler handler = new PentoWriteHandler<Pento>() {
+        PentoWriteHandler handler = new PentoWriteHandler<PentoResponse>() {
             @Override
-            public void success(Pento pento, PentoResponse response) {
+            public void success(PentoResponse response) {
                 System.out.println("Success! Pento written with confidence " + response.getConfidence());
             }
 
             @Override
-            public void error(Pento pento, PentoResponse response) {
+            public void error(PentoResponse response) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         };

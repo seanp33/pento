@@ -1,7 +1,5 @@
 package pento.model;
 
-import javax.security.auth.Subject;
-
 /**
  * Created by IntelliJ IDEA.
  * User: smonaghan

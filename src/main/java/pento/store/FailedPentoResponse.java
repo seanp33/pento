@@ -1,25 +1,23 @@
-package pento.store.mock;
+package pento.store;
 
 import pento.model.Confidence;
 import pento.model.Pento;
-import pento.store.PentoResponse;
 
-public class MockPentoResponse implements PentoResponse {
+public class FailedPentoResponse implements PentoResponse {
 
     private Pento pento;
 
-    public MockPentoResponse(Pento pento) {
+    public FailedPentoResponse(Pento pento) {
         this.pento = pento;
     }
 
     @Override
     public Confidence getConfidence() {
-        return Confidence.LOCAL;
+        return Confidence.NONE;
     }
 
     @Override
     public Pento getPento() {
         return pento;
     }
-
 }

@@ -1,26 +1,27 @@
 package pento.store.mock;
 
 import pento.model.Pento;
+import pento.store.PentoResponse;
 import pento.store.PentoStoreWorker;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-public class RandomLatencyWorker implements PentoStoreWorker<Callable<Pento>, Pento> {
+public class RandomLatencyWorker implements PentoStoreWorker<Callable<PentoResponse>, Pento> {
     @Override
-    public Callable<Pento> execute(final Pento pento) {
+    public Callable<PentoResponse> execute(final Pento pento) {
 
-        return new Callable<Pento>(){
+        return new Callable<PentoResponse>() {
             @Override
-            public Pento call() throws Exception {
+            public PentoResponse call() throws Exception {
                 Thread.sleep(randRange(1000, 7000));
-                return pento;
+                return new MockPentoResponse(pento);
             }
         };
     }
 
-    private static int randRange(int min, int max){
+    private static int randRange(int min, int max) {
         Random rand = new Random();
-        return rand.nextInt((max+1) - min) + min;
+        return rand.nextInt((max + 1) - min) + min;
     }
 }

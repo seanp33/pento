@@ -1,6 +1,7 @@
 package pento.store;
 
 import pento.model.Confidence;
+import pento.model.Pento;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,4 +13,7 @@ import pento.model.Confidence;
 public interface PentoResponse {
 
     Confidence getConfidence();
+
+    Pento getPento();
+
 }

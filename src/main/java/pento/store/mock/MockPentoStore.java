@@ -1,81 +1,50 @@
 package pento.store.mock;
 
+import com.google.common.util.concurrent.*;
 import pento.handler.PentoReadHandler;
 import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
 import pento.op.PentoQuery;
-import pento.store.PentoStore;
+import pento.store.DefaultLocalPentoStore;
+import pento.store.FailedPentoResponse;
+import pento.store.PentoResponse;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
-public class MockPentoStore implements PentoStore {
+public class MockPentoStore extends DefaultLocalPentoStore {
 
-    private MockPentoStoreEngine engine = new MockPentoStoreEngine();
-    private ExecutorService mgmt = Executors.newSingleThreadExecutor();;
+    private static final String THREAD_NAME_FORMAT = "PentoStoreEngineIO#%s";
 
-    public MockPentoStore(){
-	mgmt.submit(engine);
+    private ListeningExecutorService ioExecutor;
+
+    public MockPentoStore() {
+        ThreadFactory ioThreadPool = new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_FORMAT).build();
+        ioExecutor = MoreExecutors.listeningDecorator(
+                Executors.newCachedThreadPool(ioThreadPool));
     }
 
-    public void close() throws Exception{
-	mgmt.shutdownNow();
+    public void close() throws Exception {
+        //empty
     }
 
     @Override
-    public void write(Pento pento, PentoWriteHandler handler) {
-        engine.submitWrite(pento, handler);
+    public void write(final Pento pento, final PentoWriteHandler handler) {
+        ListenableFuture<PentoResponse> listenableFuture = ioExecutor.submit(new RandomLatencyWorker().execute(pento));
+        Futures.addCallback(listenableFuture, new FutureCallback<PentoResponse>() {
+            public void onSuccess(PentoResponse response) {
+                handler.success(response);
+            }
+
+            public void onFailure(Throwable thrown) {
+                handler.error(new FailedPentoResponse(pento));
+            }
+        });
     }
 
     @Override
     public void read(PentoQuery query, PentoReadHandler handler) {
     }
 
-    class MockPentoStoreEngine implements Runnable{
-
-        private ExecutorService ioExecutor = Executors.newFixedThreadPool(50);
-
-        private Map<Future<Pento>, PentoWriteHandler> writeHandlers = new HashMap<Future<Pento>, PentoWriteHandler>();
-
-        private volatile boolean isRunning = false;
-
-        public synchronized void submitWrite(Pento pento, PentoWriteHandler handler) {
-            writeHandlers.put(ioExecutor.submit(
-                    new RandomLatencyWorker().execute(pento)), handler);
-	    if(!isRunning) run();
-        }
-
-        @Override
-        public void run(){
-            if(Thread.currentThread().isInterrupted()){
-		System.out.println("interrupted engine thread with " + writeHandlers.size() + " handlers in motion");
-		writeHandlers.clear();
-	    }else{
-		Iterator<Map.Entry<Future<Pento>, PentoWriteHandler>> it = writeHandlers.entrySet().iterator();
-		while (it.hasNext()) {               
-		    isRunning = true;
-		    Map.Entry<Future<Pento>, PentoWriteHandler> entry = it.next();
-		    Future<Pento> future = entry.getKey();
-		    try {
-			Pento p = future.get(100, TimeUnit.MILLISECONDS);
-			entry.getValue().success(p, new MockPentoResponse());
-			it.remove();
-		    } catch (InterruptedException e) {
-			// TODO: panic
-		    } catch (ExecutionException e) {
-			// TODO: panic
-		    } catch (TimeoutException e) {
-			// TODO: panic
-		    }
-		}
-	    }
-            
-	    isRunning = false;
-            System.out.println("engine now idle...waiting for additional submissions");
-
-        }
-    }
 
 }
