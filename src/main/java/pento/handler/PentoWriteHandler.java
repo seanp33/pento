@@ -1,8 +1,6 @@
 package pento.handler;
 
 
-import pento.store.PentoResponse;
-
 /**
  * Created by IntelliJ IDEA.
  * User: smonaghan

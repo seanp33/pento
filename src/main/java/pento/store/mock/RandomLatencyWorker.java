@@ -7,7 +7,7 @@ import pento.store.PentoStoreWorker;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-public class RandomLatencyWorker implements PentoStoreWorker<Callable<PentoResponse>, Pento> {
+public class RandomLatencyWorker implements PentoStoreWorker<Pento> {
     @Override
     public Callable<PentoResponse> execute(final Pento pento) {
 

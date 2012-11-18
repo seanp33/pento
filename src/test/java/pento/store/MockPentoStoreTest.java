@@ -7,6 +7,7 @@ import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
 import pento.model.Statement;
 import pento.store.mock.MockPentoStore;
+import pento.store.mock.RandomLatencyWorkerFactory;
 
 @Ignore
 public class MockPentoStoreTest {
@@ -15,7 +16,7 @@ public class MockPentoStoreTest {
 
     @Test
     public void base_test_of_one_request() throws Exception {
-        MockPentoStore store = new MockPentoStore();
+        MockPentoStore store = new MockPentoStore(new RandomLatencyWorkerFactory(), null);
 
         PentoWriteHandler handler = new PentoWriteHandler<PentoResponse>() {
             @Override

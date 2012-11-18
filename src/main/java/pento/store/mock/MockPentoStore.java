@@ -8,6 +8,7 @@ import pento.op.PentoQuery;
 import pento.store.DefaultLocalPentoStore;
 import pento.store.FailedPentoResponse;
 import pento.store.PentoResponse;
+import pento.store.PentoStoreWorkerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -18,7 +19,13 @@ public class MockPentoStore extends DefaultLocalPentoStore {
 
     private ListeningExecutorService ioExecutor;
 
-    public MockPentoStore() {
+    private PentoStoreWorkerFactory writeWorkerFactory;
+
+    private PentoStoreWorkerFactory readWorkerFactory;
+
+    public MockPentoStore(PentoStoreWorkerFactory readWorkerFactory, PentoStoreWorkerFactory writeWorkerFactory) {
+        this.readWorkerFactory = readWorkerFactory;
+        this.writeWorkerFactory = writeWorkerFactory;
         ThreadFactory ioThreadPool = new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_FORMAT).build();
         ioExecutor = MoreExecutors.listeningDecorator(
                 Executors.newCachedThreadPool(ioThreadPool));
@@ -30,7 +37,7 @@ public class MockPentoStore extends DefaultLocalPentoStore {
 
     @Override
     public void write(final Pento pento, final PentoWriteHandler handler) {
-        ListenableFuture<PentoResponse> listenableFuture = ioExecutor.submit(new RandomLatencyWorker().execute(pento));
+        ListenableFuture<PentoResponse> listenableFuture = ioExecutor.submit(writeWorkerFactory.getInstance().execute(pento));
         Futures.addCallback(listenableFuture, new FutureCallback<PentoResponse>() {
             public void onSuccess(PentoResponse response) {
                 handler.success(response);

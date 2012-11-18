@@ -1,5 +1,7 @@
 package pento.store;
 
+import java.util.concurrent.Callable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: smonaghan
@@ -7,7 +9,7 @@ package pento.store;
  * Time: 10:15 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface PentoStoreWorker<Result, Source> {
+public interface PentoStoreWorker <Source> {
 
-    Result execute(Source source);
+    Callable execute(Source source);
 }
