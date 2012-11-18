@@ -1,8 +1,9 @@
-package pento.store.mock;
+package pento.store.mock.worker;
 
 import pento.model.Pento;
-import pento.store.PentoResponse;
+import pento.response.PentoResponse;
 import pento.store.PentoStoreWorker;
+import pento.store.mock.MockPentoResponse;
 
 import java.util.Random;
 import java.util.concurrent.Callable;

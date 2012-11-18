@@ -1,7 +1,7 @@
 package pento.handler;
 
 import pento.op.PentoQuery;
-import pento.store.PentoResponse;
+import pento.response.PentoResponse;
 
 /**
  * Created by IntelliJ IDEA.

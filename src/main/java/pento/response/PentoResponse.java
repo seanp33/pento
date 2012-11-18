@@ -1,4 +1,4 @@
-package pento.store;
+package pento.response;
 
 import pento.model.Confidence;
 import pento.model.Pento;

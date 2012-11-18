@@ -1,4 +1,4 @@
-package pento.store.mock;
+package pento.store.mock.worker;
 
 import pento.model.Pento;
 import pento.store.PentoStoreWorker;

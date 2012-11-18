@@ -3,16 +3,16 @@ package pento;
 import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
 import pento.model.Statement;
-import pento.store.PentoResponse;
+import pento.response.PentoResponse;
 import pento.store.mock.MockPentoStore;
-import pento.store.mock.RandomLatencyWorkerFactory;
+import pento.store.mock.worker.RandomLatencyWorkerFactory;
 
 public class SimpleDriver {
 
     public static void main(String[] args) throws Exception {
 
         // TODO: fleshout the read worker factory impl. passing in null for the time being
-        final MockPentoStore store = new MockPentoStore(new RandomLatencyWorkerFactory(), null);
+        final MockPentoStore store = new MockPentoStore(null, new RandomLatencyWorkerFactory());
 
         PentoWriteHandler handler = new PentoWriteHandler<PentoResponse>() {
             int count = 0;

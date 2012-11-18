@@ -2,7 +2,7 @@ package pento.store.mock;
 
 import pento.model.Confidence;
 import pento.model.Pento;
-import pento.store.PentoResponse;
+import pento.response.PentoResponse;
 
 public class MockPentoResponse implements PentoResponse {
 

@@ -5,9 +5,9 @@ import pento.handler.PentoReadHandler;
 import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
 import pento.op.PentoQuery;
+import pento.response.FailedPentoResponse;
+import pento.response.PentoResponse;
 import pento.store.DefaultLocalPentoStore;
-import pento.store.FailedPentoResponse;
-import pento.store.PentoResponse;
 import pento.store.PentoStoreWorkerFactory;
 
 import java.util.concurrent.Executors;
