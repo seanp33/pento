@@ -2,7 +2,7 @@ package pento.store.mock.worker;
 
 import pento.model.Pento;
 import pento.response.PentoResponse;
-import pento.store.PentoStoreWorker;
+import pento.store.worker.PentoStoreWorker;
 import pento.store.mock.MockPentoResponse;
 
 import java.util.Random;

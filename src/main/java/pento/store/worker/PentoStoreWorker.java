@@ -1,4 +1,4 @@
-package pento.store;
+package pento.store.worker;
 
 import java.util.concurrent.Callable;
 

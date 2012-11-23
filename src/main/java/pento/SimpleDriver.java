@@ -4,15 +4,16 @@ import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
 import pento.model.Statement;
 import pento.response.PentoResponse;
-import pento.store.mock.MockPentoStore;
+import pento.store.DefaultPentoStore;
 import pento.store.mock.worker.RandomLatencyWorkerFactory;
+import pento.store.worker.EmptyConfiguration;
 
 public class SimpleDriver {
 
     public static void main(String[] args) throws Exception {
 
         // TODO: fleshout the read worker factory impl. passing in null for the time being
-        final MockPentoStore store = new MockPentoStore(null, new RandomLatencyWorkerFactory());
+        final DefaultPentoStore store = new DefaultPentoStore(null, new RandomLatencyWorkerFactory());
 
         PentoWriteHandler handler = new PentoWriteHandler<PentoResponse>() {
             int count = 0;
@@ -28,7 +29,6 @@ public class SimpleDriver {
                 sb.append("\n------------------------\n");
                 System.out.println(sb.toString());
                 if (count == 10) {
-                    System.out.println("would need to store.close()");
                     try {
                         store.close();
                         System.exit(0);
@@ -44,8 +44,10 @@ public class SimpleDriver {
             }
         };
 
+        EmptyConfiguration configuration = new EmptyConfiguration();
         for (int i = 0; i < 10; i++) {
-            store.write(new Pento(new Statement("urn:sean#" + i, "color", "blue"), System.currentTimeMillis(), "TEST"), handler);
+            store.write(new Pento(new Statement("urn:sean#" + i, "color", "blue"), System.currentTimeMillis(), "TEST"),
+                    handler, configuration);
         }
     }
 }

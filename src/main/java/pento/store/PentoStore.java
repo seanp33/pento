@@ -14,7 +14,7 @@ import pento.op.PentoQuery;
  */
 public interface PentoStore {
 
-    void write(Pento pento, PentoWriteHandler handler);
+    void write(Pento pento, PentoWriteHandler handler, WriterConfiguration writerConfiguration);
 
     void read(PentoQuery query, PentoReadHandler handler);
 

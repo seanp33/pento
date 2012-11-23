@@ -1,4 +1,4 @@
-package pento.store.mock;
+package pento.store;
 
 import com.google.common.util.concurrent.*;
 import pento.handler.PentoReadHandler;
@@ -7,13 +7,12 @@ import pento.model.Pento;
 import pento.op.PentoQuery;
 import pento.response.FailedPentoResponse;
 import pento.response.PentoResponse;
-import pento.store.DefaultLocalPentoStore;
-import pento.store.PentoStoreWorkerFactory;
+import pento.store.worker.PentoStoreWorkerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-public class MockPentoStore extends DefaultLocalPentoStore {
+public class DefaultPentoStore implements PentoStore {
 
     private static final String THREAD_NAME_FORMAT = "PentoStoreEngineIO#%s";
 
@@ -23,7 +22,7 @@ public class MockPentoStore extends DefaultLocalPentoStore {
 
     private PentoStoreWorkerFactory readWorkerFactory;
 
-    public MockPentoStore(PentoStoreWorkerFactory readWorkerFactory, PentoStoreWorkerFactory writeWorkerFactory) {
+    public DefaultPentoStore(PentoStoreWorkerFactory readWorkerFactory, PentoStoreWorkerFactory writeWorkerFactory) {
         this.readWorkerFactory = readWorkerFactory;
         this.writeWorkerFactory = writeWorkerFactory;
         ThreadFactory ioThreadPool = new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_FORMAT).build();
@@ -32,12 +31,12 @@ public class MockPentoStore extends DefaultLocalPentoStore {
     }
 
     public void close() throws Exception {
-        //empty
+        ioExecutor.shutdown();
     }
 
     @Override
-    public void write(final Pento pento, final PentoWriteHandler handler) {
-        ListenableFuture<PentoResponse> listenableFuture = ioExecutor.submit(writeWorkerFactory.getInstance().execute(pento));
+    public void write(final Pento pento, final PentoWriteHandler handler, final WriterConfiguration config) {
+        ListenableFuture<PentoResponse> listenableFuture = ioExecutor.submit(writeWorkerFactory.getInstance(config).execute(pento));
         Futures.addCallback(listenableFuture, new FutureCallback<PentoResponse>() {
             public void onSuccess(PentoResponse response) {
                 handler.success(response);
