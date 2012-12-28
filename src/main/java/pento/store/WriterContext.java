@@ -3,5 +3,5 @@ package pento.store;
 /**
  * Marker interface for now
  */
-public interface WriterConfiguration {
+public interface WriterContext {
 }

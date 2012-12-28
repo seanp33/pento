@@ -7,8 +7,19 @@ public class FailedPentoResponse implements PentoResponse {
 
     private Pento pento;
 
-    public FailedPentoResponse(Pento pento) {
+    private Throwable cause;
+
+    private String origin;
+
+    public FailedPentoResponse(Pento pento, Throwable cause) {
         this.pento = pento;
+        this.cause = cause;
+    }
+
+    public FailedPentoResponse(Pento pento, Throwable cause, String origin) {
+        this.pento = pento;
+        this.cause = cause;
+        this.origin = origin;
     }
 
     @Override
@@ -19,5 +30,19 @@ public class FailedPentoResponse implements PentoResponse {
     @Override
     public Pento getPento() {
         return pento;
+    }
+
+    public Throwable getCause() {
+        return cause;
+    }
+
+    @Override
+    public Object getBody() {
+        return null;
+    }
+
+    @Override
+    public String getOrigin() {
+        return origin;
     }
 }

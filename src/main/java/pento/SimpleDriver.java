@@ -3,10 +3,11 @@ package pento;
 import pento.handler.PentoWriteHandler;
 import pento.model.Pento;
 import pento.model.Statement;
+import pento.response.FailedPentoResponse;
 import pento.response.PentoResponse;
 import pento.store.DefaultPentoStore;
 import pento.store.mock.worker.RandomLatencyWorkerFactory;
-import pento.store.worker.EmptyConfiguration;
+import pento.store.worker.EmptyContext;
 
 public class SimpleDriver {
 
@@ -39,12 +40,12 @@ public class SimpleDriver {
             }
 
             @Override
-            public void error(PentoResponse response) {
+            public void failure(FailedPentoResponse response) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         };
 
-        EmptyConfiguration configuration = new EmptyConfiguration();
+        EmptyContext configuration = new EmptyContext();
         for (int i = 0; i < 10; i++) {
             store.write(new Pento(new Statement("urn:sean#" + i, "color", "blue"), System.currentTimeMillis(), "TEST"),
                     handler, configuration);

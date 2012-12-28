@@ -22,4 +22,13 @@ public class MockPentoResponse implements PentoResponse {
         return pento;
     }
 
+    @Override
+    public Object getBody() {
+        return null;
+    }
+
+    @Override
+    public String getOrigin() {
+        return "mock";
+    }
 }

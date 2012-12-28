@@ -1,6 +1,8 @@
 package pento.handler;
 
 
+import pento.response.FailedPentoResponse;
+
 /**
  * Created by IntelliJ IDEA.
  * User: smonaghan
@@ -12,5 +14,5 @@ public interface PentoWriteHandler<PentoResponse> extends PentoHandler {
 
     public void success(PentoResponse response);
 
-    public void error(PentoResponse response);
+    public void failure(FailedPentoResponse response);
 }
