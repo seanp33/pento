@@ -9,6 +9,8 @@ import pento.store.DefaultPentoStore;
 import pento.store.mock.worker.RandomLatencyWorkerFactory;
 import pento.store.worker.EmptyContext;
 
+import java.util.Arrays;
+
 public class SimpleDriver {
 
     public static void main(String[] args) throws Exception {
@@ -45,10 +47,11 @@ public class SimpleDriver {
             }
         };
 
-        EmptyContext configuration = new EmptyContext();
+        EmptyContext context = new EmptyContext();
         for (int i = 0; i < 10; i++) {
-            store.write(new Pento(new Statement("urn:sean#" + i, "color", "blue"), System.currentTimeMillis(), "TEST"),
-                    handler, configuration);
+            store.write(
+                    new Pento(Arrays.asList(new Statement("urn:sean#" + i, "color", "blue")),
+                            System.currentTimeMillis(), "TEST"),handler, context);
         }
     }
 }

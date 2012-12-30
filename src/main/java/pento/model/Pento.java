@@ -1,21 +1,23 @@
 package pento.model;
 
+import java.util.Collection;
+
 public final class Pento {
 
-    private final Statement statement;
+    private final Collection<Statement> statements;
 
     private final Long timestamp;
 
     private final String origin;
 
-    public Pento(Statement statement, Long timestamp, String origin) {
-        this.statement = statement;
+    public Pento(Collection<Statement> statements, Long timestamp, String origin) {
+        this.statements = statements;
         this.timestamp = timestamp;
         this.origin = origin;
     }
 
-    public Statement getStatement() {
-        return statement;
+    public Collection<Statement> getStatements() {
+        return statements;
     }
 
     public long getTimestamp() {
@@ -29,7 +31,7 @@ public final class Pento {
     @Override
     public String toString() {
         return "Pento{" +
-                "statement=" + statement +
+                "statements=" + statements +
                 ", timestamp=" + timestamp +
                 ", origin='" + origin + '\'' +
                 '}';
