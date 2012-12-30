@@ -34,4 +34,26 @@ public class Statement {
                 ", object=" + object +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Statement statement = (Statement) o;
+
+        if (!object.equals(statement.object)) return false;
+        if (!predicate.equals(statement.predicate)) return false;
+        if (!subject.equals(statement.subject)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = subject.hashCode();
+        result = 31 * result + predicate.hashCode();
+        result = 31 * result + object.hashCode();
+        return result;
+    }
 }

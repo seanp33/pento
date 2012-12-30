@@ -36,4 +36,26 @@ public final class Pento {
                 ", origin='" + origin + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pento pento = (Pento) o;
+
+        if (!origin.equals(pento.origin)) return false;
+        if (!statements.equals(pento.statements)) return false;
+        if (!timestamp.equals(pento.timestamp)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = statements.hashCode();
+        result = 31 * result + timestamp.hashCode();
+        result = 31 * result + origin.hashCode();
+        return result;
+    }
 }
