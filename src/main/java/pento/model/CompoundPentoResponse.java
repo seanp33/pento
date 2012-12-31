@@ -19,22 +19,22 @@ public class CompoundPentoResponse implements PentoResponse{
 
     @Override
     public String getOrigin() {
-        return (responses.isEmpty()) ? null : responses.get(0).getOrigin();
+        return responses.get(0).getOrigin();
     }
 
     @Override
     public Object getBody() {
-        return (responses.isEmpty()) ? null : responses.get(0).getBody();
+        return responses.get(0).getBody();
     }
 
     @Override
     public Pento getPento() {
-        return (responses.isEmpty()) ? null : responses.get(0).getPento();
+        return responses.get(0).getPento();
     }
 
     @Override
     public Confidence getConfidence() {
-        return (responses.isEmpty()) ? null : responses.get(0).getConfidence();
+        return responses.get(0).getConfidence();
     }
 
     public Collection<PentoResponse> getResponses() {
@@ -44,7 +44,5 @@ public class CompoundPentoResponse implements PentoResponse{
     public void add(PentoResponse response){
         responses.add(response);
     }
-
-
 
 }

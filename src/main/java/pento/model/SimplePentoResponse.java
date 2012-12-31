@@ -40,6 +40,15 @@ public class SimplePentoResponse implements PentoResponse{
 
     @Override
     public String getOrigin() {
-        return this.origin;
+        return origin;
+    }
+
+    @Override
+    public String toString() {
+        return "SimplePentoResponse{" +
+                ", confidence=" + confidence +
+                ", body=" + body +
+                ", origin='" + origin + '\'' +
+                '}';
     }
 }
