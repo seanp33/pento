@@ -16,7 +16,7 @@ public class SimplePentoResponse implements PentoResponse{
         this.pento = pento;
         this.confidence = confidence;
         this.origin = origin;
-    }`
+    }
 
     public SimplePentoResponse(Pento pento, Confidence confidence, String origin, Object body) {
         this(pento, confidence, origin);
