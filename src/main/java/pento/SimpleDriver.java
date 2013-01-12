@@ -1,6 +1,7 @@
 package pento;
 
 import pento.handler.PentoWriteHandler;
+import pento.model.EmptyDistribution;
 import pento.model.Pento;
 import pento.model.Statement;
 import pento.response.FailedPentoResponse;
@@ -51,7 +52,7 @@ public class SimpleDriver {
         for (int i = 0; i < 10; i++) {
             store.write(
                     new Pento(Arrays.asList(new Statement("urn:sean#" + i, "color", "blue")),
-                            System.currentTimeMillis(), "TEST"),handler, context);
+                            System.currentTimeMillis(), "TEST"), new EmptyDistribution(), handler, context);
         }
     }
 }

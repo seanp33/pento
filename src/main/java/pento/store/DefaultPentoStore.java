@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pento.handler.PentoReadHandler;
 import pento.handler.PentoWriteHandler;
+import pento.model.Distribution;
 import pento.model.Pento;
 import pento.op.PentoQuery;
 import pento.response.FailedPentoResponse;
@@ -41,9 +42,9 @@ public class DefaultPentoStore implements PentoStore {
     }
 
     @Override
-    public void write(final Pento pento, final PentoWriteHandler handler, final WriterContext writerContext) {
+    public void write(final Pento pento, final Distribution distribution, final PentoWriteHandler handler, final WriterContext writerContext) {
         PentoStoreWorker worker = writeWorkerFactory.getInstance(writerContext);
-        Callable callable = worker.execute(pento);
+        Callable callable = worker.execute(pento, distribution);
         ListenableFuture<PentoResponse> future = ioExecutor.submit(callable);
 
         Futures.addCallback(future, new FutureCallback<PentoResponse>() {
