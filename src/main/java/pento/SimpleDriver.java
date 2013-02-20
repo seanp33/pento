@@ -4,8 +4,8 @@ import pento.handler.PentoWriteHandler;
 import pento.model.EmptyDistribution;
 import pento.model.Pento;
 import pento.model.Statement;
-import pento.response.FailedPentoResponse;
-import pento.response.PentoResponse;
+import pento.response.write.FailedPentoWriteResponse;
+import pento.response.write.PentoWriteResponse;
 import pento.store.DefaultPentoStore;
 import pento.store.mock.worker.RandomLatencyWorkerFactory;
 import pento.store.worker.EmptyContext;
@@ -19,11 +19,11 @@ public class SimpleDriver {
         // TODO: fleshout the read worker factory impl. passing in null for the time being
         final DefaultPentoStore store = new DefaultPentoStore(null, new RandomLatencyWorkerFactory());
 
-        PentoWriteHandler handler = new PentoWriteHandler<PentoResponse>() {
+        PentoWriteHandler handler = new PentoWriteHandler<PentoWriteResponse>() {
             int count = 0;
 
             @Override
-            public void success(PentoResponse response) {
+            public void success(PentoWriteResponse response) {
                 count += 1;
                 StringBuffer sb = new StringBuffer();
                 sb.append("Success! Pento written:\n");
@@ -43,7 +43,7 @@ public class SimpleDriver {
             }
 
             @Override
-            public void failure(FailedPentoResponse response) {
+            public void failure(FailedPentoWriteResponse response) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         };

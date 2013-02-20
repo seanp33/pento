@@ -8,7 +8,7 @@ import pento.op.PentoQuery;
 
 public interface PentoStore {
 
-    void write(Pento pento, Distribution distribution, PentoWriteHandler handler, WriterContext writerContext);
+    void write(Pento pento, Distribution distribution, PentoWriteHandler handler, OperationContext operationContext);
 
     void read(PentoQuery query, PentoReadHandler handler);
 

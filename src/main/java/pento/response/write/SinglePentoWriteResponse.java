@@ -1,8 +1,9 @@
-package pento.model;
+package pento.response.write;
 
-import pento.response.PentoResponse;
+import pento.model.Confidence;
+import pento.model.Pento;
 
-public class SimplePentoResponse implements PentoResponse{
+public class SinglePentoWriteResponse implements PentoWriteResponse {
 
     private Pento pento;
 
@@ -12,13 +13,13 @@ public class SimplePentoResponse implements PentoResponse{
 
     private String origin;
 
-    public SimplePentoResponse(Pento pento, Confidence confidence, String origin) {
+    public SinglePentoWriteResponse(Pento pento, Confidence confidence, String origin) {
         this.pento = pento;
         this.confidence = confidence;
         this.origin = origin;
     }
 
-    public SimplePentoResponse(Pento pento, Confidence confidence, String origin, Object body) {
+    public SinglePentoWriteResponse(Pento pento, Confidence confidence, String origin, Object body) {
         this(pento, confidence, origin);
         this.body = body;
     }
@@ -45,7 +46,7 @@ public class SimplePentoResponse implements PentoResponse{
 
     @Override
     public String toString() {
-        return "SimplePentoResponse{" +
+        return "SinglePentoWriteResponse{" +
                 ", confidence=" + confidence +
                 ", body=" + body +
                 ", origin='" + origin + '\'' +

@@ -1,20 +1,21 @@
-package pento.model;
+package pento.response.write;
 
-import pento.response.PentoResponse;
+import pento.model.Confidence;
+import pento.model.Pento;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * A composition of PentoResponse instances. All PentoResponse methods return the first
+ * A composition of PentoWriteResponse instances. All PentoWriteResponse methods return the first
  * PentoRespmse maintained by the composite, Access to all responses is available via the response List
  */
-public class CompoundPentoResponse implements PentoResponse{
+public class CompoundPentoWriteResponse implements PentoWriteResponse {
 
-    List<PentoResponse> responses = new ArrayList<PentoResponse>();
+    List<PentoWriteResponse> responses = new ArrayList<PentoWriteResponse>();
 
-    public CompoundPentoResponse() {
+    public CompoundPentoWriteResponse() {
     }
 
     @Override
@@ -37,11 +38,11 @@ public class CompoundPentoResponse implements PentoResponse{
         return responses.get(0).getConfidence();
     }
 
-    public Collection<PentoResponse> getResponses() {
+    public Collection<PentoWriteResponse> getResponses() {
         return responses;
     }
 
-    public void add(PentoResponse response){
+    public void add(PentoWriteResponse response){
         responses.add(response);
     }
 

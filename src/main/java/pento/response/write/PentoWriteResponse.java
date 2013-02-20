@@ -1,9 +1,9 @@
-package pento.response;
+package pento.response.write;
 
 import pento.model.Confidence;
 import pento.model.Pento;
 
-public interface PentoResponse {
+public interface PentoWriteResponse {
 
     Confidence getConfidence();
 

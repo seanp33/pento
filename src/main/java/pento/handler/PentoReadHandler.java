@@ -1,7 +1,7 @@
 package pento.handler;
 
 import pento.op.PentoQuery;
-import pento.response.PentoResponse;
+import pento.response.write.PentoWriteResponse;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +12,7 @@ import pento.response.PentoResponse;
  */
 public interface PentoReadHandler<Iterator> extends PentoHandler {
 
-    void success(Iterator penti, PentoResponse response, PentoQuery query);
+    void success(Iterator penti, PentoWriteResponse response, PentoQuery query);
 
-    void error(PentoResponse response, PentoQuery query);
+    void error(PentoWriteResponse response, PentoQuery query);
 }

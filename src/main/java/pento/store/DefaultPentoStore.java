@@ -8,8 +8,8 @@ import pento.handler.PentoWriteHandler;
 import pento.model.Distribution;
 import pento.model.Pento;
 import pento.op.PentoQuery;
-import pento.response.FailedPentoResponse;
-import pento.response.PentoResponse;
+import pento.response.write.FailedPentoWriteResponse;
+import pento.response.write.PentoWriteResponse;
 import pento.store.worker.PentoStoreWorker;
 import pento.store.worker.PentoStoreWorkerFactory;
 
@@ -42,19 +42,19 @@ public class DefaultPentoStore implements PentoStore {
     }
 
     @Override
-    public void write(final Pento pento, final Distribution distribution, final PentoWriteHandler handler, final WriterContext writerContext) {
-        PentoStoreWorker worker = writeWorkerFactory.getInstance(writerContext);
+    public void write(final Pento pento, final Distribution distribution, final PentoWriteHandler handler, final OperationContext operationContext) {
+        PentoStoreWorker worker = writeWorkerFactory.getInstance(operationContext);
         Callable callable = worker.execute(pento, distribution);
-        ListenableFuture<PentoResponse> future = ioExecutor.submit(callable);
+        ListenableFuture<PentoWriteResponse> future = ioExecutor.submit(callable);
 
-        Futures.addCallback(future, new FutureCallback<PentoResponse>() {
-            public void onSuccess(PentoResponse response) {
+        Futures.addCallback(future, new FutureCallback<PentoWriteResponse>() {
+            public void onSuccess(PentoWriteResponse response) {
                 handler.success(response);
             }
 
             public void onFailure(Throwable thrown) {
                 logger.error(thrown.getMessage());
-                handler.failure(new FailedPentoResponse(pento, thrown));
+                handler.failure(new FailedPentoWriteResponse(pento, thrown));
             }
         });
     }

@@ -1,9 +1,9 @@
 package pento.store.worker;
 
-import pento.store.WriterContext;
+import pento.store.OperationContext;
 
 /**
  * Empty context
  */
-public class EmptyContext implements WriterContext {
+public class EmptyContext implements OperationContext {
 }

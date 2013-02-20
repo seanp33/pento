@@ -2,13 +2,13 @@ package pento.store.mock;
 
 import pento.model.Confidence;
 import pento.model.Pento;
-import pento.response.PentoResponse;
+import pento.response.write.PentoWriteResponse;
 
-public class MockPentoResponse implements PentoResponse {
+public class MockPentoWriteResponse implements PentoWriteResponse {
 
     private Pento pento;
 
-    public MockPentoResponse(Pento pento) {
+    public MockPentoWriteResponse(Pento pento) {
         this.pento = pento;
     }
 

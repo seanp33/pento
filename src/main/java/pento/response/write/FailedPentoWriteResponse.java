@@ -1,9 +1,9 @@
-package pento.response;
+package pento.response.write;
 
 import pento.model.Confidence;
 import pento.model.Pento;
 
-public class FailedPentoResponse implements PentoResponse {
+public class FailedPentoWriteResponse implements PentoWriteResponse {
 
     private Pento pento;
 
@@ -11,12 +11,12 @@ public class FailedPentoResponse implements PentoResponse {
 
     private String origin;
 
-    public FailedPentoResponse(Pento pento, Throwable cause) {
+    public FailedPentoWriteResponse(Pento pento, Throwable cause) {
         this.pento = pento;
         this.cause = cause;
     }
 
-    public FailedPentoResponse(Pento pento, Throwable cause, String origin) {
+    public FailedPentoWriteResponse(Pento pento, Throwable cause, String origin) {
         this.pento = pento;
         this.cause = cause;
         this.origin = origin;

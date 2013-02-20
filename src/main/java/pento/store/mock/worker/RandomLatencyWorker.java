@@ -2,11 +2,10 @@ package pento.store.mock.worker;
 
 import pento.model.Distribution;
 import pento.model.Pento;
-import pento.response.PentoResponse;
+import pento.response.write.PentoWriteResponse;
+import pento.store.mock.MockPentoWriteResponse;
 import pento.store.worker.PentoStoreWorker;
-import pento.store.mock.MockPentoResponse;
 
-import javax.print.attribute.standard.Destination;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
@@ -14,11 +13,11 @@ public class RandomLatencyWorker implements PentoStoreWorker<Pento, Distribution
 
     @Override
     public Callable execute(final Pento pento, final Distribution distribution) {
-        return new Callable<PentoResponse>() {
+        return new Callable<PentoWriteResponse>() {
             @Override
-            public PentoResponse call() throws Exception {
+            public PentoWriteResponse call() throws Exception {
                 Thread.sleep(randRange(1000, 7000));
-                return new MockPentoResponse(pento);
+                return new MockPentoWriteResponse(pento);
             }
         };
     }
