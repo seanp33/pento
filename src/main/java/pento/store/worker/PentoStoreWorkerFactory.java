@@ -1,10 +1,14 @@
 package pento.store.worker;
 
+import pento.model.Distribution;
+
+import java.util.List;
+
 /**
  * Factory interface for producing PentoStoreWorker instances
  */
-public interface PentoStoreWorkerFactory<Source, Sink, InstanceConfiguration> {
+public interface PentoStoreWorkerFactory<Source, InstanceConfiguration, Endpoint> {
 
-    public PentoStoreWorker<Source, Sink> getInstance(InstanceConfiguration instanceConfiguration);
+    public List<PentoStoreWorker<Source>> getWorkers(InstanceConfiguration instanceConfiguration, Distribution<Endpoint> distribution);
 
 }

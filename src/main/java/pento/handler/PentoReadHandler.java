@@ -1,18 +1,27 @@
 package pento.handler;
 
-import pento.op.PentoQuery;
+import pento.model.Pento;
+import pento.response.read.FailedPentoReadResponse;
+import pento.response.read.PentoReadResponse;
 import pento.response.write.PentoWriteResponse;
 
 /**
- * Created by IntelliJ IDEA.
- * User: smonaghan
- * Date: 10/13/12
- * Time: 9:44 AM
- * To change this template use File | Settings | File Templates.
+ * Defines a handler interface for handling the results of asynchronous {@link Pento} read operations. Implementations
+ * should consider that single PentoReadHandler will be utilized for a single PentoStore operation, and will
+ * subsequently potentially be invoked by multiple {@link pento.store.PentoStore} threads. Therefore implementations
+ * should ensure thread safety.
  */
-public interface PentoReadHandler<Iterator> extends PentoHandler {
+public interface PentoReadHandler {
 
-    void success(Iterator penti, PentoWriteResponse response, PentoQuery query);
+    /**
+     * Callback implementation for a successful read operation.
+     * @param response The {@link PentoReadResponse} indicating the details of the successful operation
+     */
+    void success(PentoReadResponse response);
 
-    void error(PentoWriteResponse response, PentoQuery query);
+    /**
+     * Callback implementation handling a failed read operation
+     * @param response The {@link FailedPentoReadResponse} indicating the details of the failed operation
+     */
+    void failure(FailedPentoReadResponse response);
 }

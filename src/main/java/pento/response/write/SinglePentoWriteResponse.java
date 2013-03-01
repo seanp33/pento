@@ -13,35 +13,45 @@ public class SinglePentoWriteResponse implements PentoWriteResponse {
 
     private String origin;
 
+    public SinglePentoWriteResponse() {
+    }
+
     public SinglePentoWriteResponse(Pento pento, Confidence confidence, String origin) {
         this.pento = pento;
         this.confidence = confidence;
         this.origin = origin;
     }
 
-    public SinglePentoWriteResponse(Pento pento, Confidence confidence, String origin, Object body) {
-        this(pento, confidence, origin);
-        this.body = body;
-    }
-
-    @Override
-    public Confidence getConfidence() {
-        return confidence;
-    }
-
-    @Override
     public Pento getPento() {
         return pento;
     }
 
-    @Override
+    public void setPento(Pento pento) {
+        this.pento = pento;
+    }
+
+    public Confidence getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Confidence confidence) {
+        this.confidence = confidence;
+    }
+
     public Object getBody() {
         return body;
     }
 
-    @Override
+    public void setBody(Object body) {
+        this.body = body;
+    }
+
     public String getOrigin() {
         return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
     @Override

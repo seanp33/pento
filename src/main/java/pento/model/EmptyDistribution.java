@@ -9,8 +9,8 @@ import java.util.Iterator;
 public class EmptyDistribution implements Distribution<Object> {
 
     @Override
-    public Iterator<Object> getMembers() {
-        return new ArrayList<Object>().iterator();
+    public Iterable<Object> getMembers() {
+        return new ArrayList<Object>();
     }
 
     @Override
@@ -21,5 +21,10 @@ public class EmptyDistribution implements Distribution<Object> {
     @Override
     public int size() {
         return 0;
+    }
+
+    @Override
+    public boolean includesLocal() {
+        return false;
     }
 }

@@ -1,18 +1,23 @@
 package pento.store.mock.worker;
 
 import pento.model.Distribution;
-import pento.store.worker.EmptyContext;
 import pento.model.Pento;
+import pento.store.worker.EmptyContext;
 import pento.store.worker.PentoStoreWorker;
 import pento.store.worker.PentoStoreWorkerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * PentoStoreWorkerFactory impl for producing new instances of RandomLatencyWorker
  */
-public class RandomLatencyWorkerFactory implements PentoStoreWorkerFactory<Pento, Distribution, EmptyContext> {
+public class RandomLatencyWorkerFactory implements PentoStoreWorkerFactory<Pento, EmptyContext, Object> {
 
     @Override
-    public PentoStoreWorker<Pento, Distribution> getInstance(EmptyContext configuration) {
-        return new RandomLatencyWorker();
+    public List<PentoStoreWorker<Pento>> getWorkers(EmptyContext configuration, Distribution<Object> distribution) {
+        ArrayList<PentoStoreWorker<Pento>> workers = new ArrayList<PentoStoreWorker<Pento>>();
+        workers.add(new RandomLatencyWorker());
+        return workers;
     }
 }

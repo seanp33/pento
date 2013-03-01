@@ -4,9 +4,11 @@ import java.util.Iterator;
 
 public interface Distribution<Member>{
 
-    Iterator<Member> getMembers();
+    Iterable<Member> getMembers();
 
     boolean isEmpty();
+
+    boolean includesLocal();
 
     int size();
 

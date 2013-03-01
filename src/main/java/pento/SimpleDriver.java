@@ -19,7 +19,7 @@ public class SimpleDriver {
         // TODO: fleshout the read worker factory impl. passing in null for the time being
         final DefaultPentoStore store = new DefaultPentoStore(null, new RandomLatencyWorkerFactory());
 
-        PentoWriteHandler handler = new PentoWriteHandler<PentoWriteResponse>() {
+        PentoWriteHandler handler = new PentoWriteHandler() {
             int count = 0;
 
             @Override

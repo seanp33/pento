@@ -1,6 +1,5 @@
 package pento.store.mock.worker;
 
-import pento.model.Distribution;
 import pento.model.Pento;
 import pento.response.write.PentoWriteResponse;
 import pento.store.mock.MockPentoWriteResponse;
@@ -9,10 +8,10 @@ import pento.store.worker.PentoStoreWorker;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-public class RandomLatencyWorker implements PentoStoreWorker<Pento, Distribution> {
+public class RandomLatencyWorker implements PentoStoreWorker<Pento> {
 
     @Override
-    public Callable execute(final Pento pento, final Distribution distribution) {
+    public Callable execute(final Pento pento) {
         return new Callable<PentoWriteResponse>() {
             @Override
             public PentoWriteResponse call() throws Exception {
