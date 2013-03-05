@@ -9,6 +9,21 @@ import java.util.Iterator;
 public class EmptyDistribution implements Distribution<Object> {
 
     @Override
+    public void addMember(String key, Object o) {
+        throw new IllegalArgumentException("Member's cannot be added to an empty distribution");
+    }
+
+    @Override
+    public void removeMember(String key) {
+        throw new IllegalArgumentException("Member's cannot be removed from an empty distribution");
+    }
+
+    @Override
+    public boolean hasMember(String key) {
+        return false;
+    }
+
+    @Override
     public Iterable<Object> getMembers() {
         return new ArrayList<Object>();
     }

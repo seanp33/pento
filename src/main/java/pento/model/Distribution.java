@@ -1,8 +1,14 @@
 package pento.model;
 
-public interface Distribution<Member>{
+public interface Distribution<V>{
 
-    Iterable<Member> getMembers();
+    void addMember(String key, V member);
+
+    void removeMember(String key);
+
+    boolean hasMember(String key);
+
+    Iterable<V> getMembers();
 
     boolean isEmpty();
 
