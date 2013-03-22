@@ -64,6 +64,7 @@ public class DefaultPentoStore implements PentoStore {
 
     @Override
     public void read(PentoQuery query, PentoReadHandler handler) {
+        // TODO: implement
     }
 
 

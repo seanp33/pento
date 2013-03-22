@@ -4,11 +4,14 @@ import java.util.Collection;
 
 public final class Pento {
 
-    private final Collection<Statement> statements;
+    private Collection<Statement> statements;
 
-    private final Long timestamp;
+    private Long timestamp;
 
-    private final String origin;
+    private String origin;
+
+    public Pento() {
+    }
 
     public Pento(Collection<Statement> statements, Long timestamp, String origin) {
         this.statements = statements;

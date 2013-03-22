@@ -2,11 +2,14 @@ package pento.model;
 
 public class Statement {
 
-    private final String subject;
+    private String subject;
 
-    private final String predicate;
+    private String predicate;
 
-    private final Object object;
+    private Object object;
+
+    public Statement() {
+    }
 
     public Statement(String subject, String predicate, Object object) {
         this.subject = subject;

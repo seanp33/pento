@@ -5,5 +5,7 @@ package pento.op;
  */
 public interface PentoQuery<T> {
 
-    T getExpression();
+    T getQuery();
+
+    void setQuery(T query);
 }
