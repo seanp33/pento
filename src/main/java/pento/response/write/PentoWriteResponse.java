@@ -2,15 +2,12 @@ package pento.response.write;
 
 import pento.model.Confidence;
 import pento.model.Pento;
+import pento.response.Response;
 
-public interface PentoWriteResponse {
-
-    Confidence getConfidence();
+public interface PentoWriteResponse extends Response {
 
     Pento getPento();
 
     Object getBody();
-
-    String getOrigin();
 
 }

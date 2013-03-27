@@ -1,5 +1,6 @@
 package pento.response.read;
 
+import pento.model.Confidence;
 import pento.model.Pento;
 import pento.op.PentoQuery;
 
@@ -11,12 +12,15 @@ public class SinglePentoReadResponse implements PentoReadResponse {
 
     private String origin;
 
+    private Confidence confidence;
+
     public SinglePentoReadResponse() {
     }
 
-    public SinglePentoReadResponse(Iterable<Pento> penti, PentoQuery pentoQuery, String origin) {
+    public SinglePentoReadResponse(Iterable<Pento> penti, PentoQuery pentoQuery, Confidence confidence, String origin) {
         this.penti = penti;
         this.pentoQuery = pentoQuery;
+        this.confidence = confidence;
         this.origin = origin;
     }
 
@@ -45,5 +49,14 @@ public class SinglePentoReadResponse implements PentoReadResponse {
 
     public void setOrigin(String origin) {
         this.origin = origin;
+    }
+
+    @Override
+    public Confidence getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Confidence confidence) {
+        this.confidence = confidence;
     }
 }

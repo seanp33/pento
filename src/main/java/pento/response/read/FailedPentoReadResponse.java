@@ -1,5 +1,6 @@
 package pento.response.read;
 
+import pento.model.Confidence;
 import pento.model.Pento;
 import pento.op.PentoQuery;
 
@@ -39,6 +40,11 @@ public class FailedPentoReadResponse implements PentoReadResponse {
     @Override
     public PentoQuery getPentoQuery() {
         return pentoQuery;
+    }
+
+    @Override
+    public Confidence getConfidence() {
+        return Confidence.NONE;
     }
 
     @Override
