@@ -1,7 +1,6 @@
 package pento.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * An implementation of {@link Distribution} having no entries

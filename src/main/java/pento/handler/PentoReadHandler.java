@@ -3,7 +3,6 @@ package pento.handler;
 import pento.model.Pento;
 import pento.response.read.FailedPentoReadResponse;
 import pento.response.read.PentoReadResponse;
-import pento.response.write.PentoWriteResponse;
 
 /**
  * Defines a handler interface for handling the results of asynchronous {@link Pento} read operations. Implementations
