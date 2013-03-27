@@ -26,10 +26,15 @@ public class FailedPentoReadResponse implements PentoReadResponse {
         this.cause = cause;
     }
 
-    public FailedPentoReadResponse(Throwable cause, String origin, PentoQuery pentoQuery) {
-        this.cause = cause;
-        this.origin = origin;
+    public FailedPentoReadResponse(PentoQuery pentoQuery, String origin, Throwable cause) {
         this.pentoQuery = pentoQuery;
+        this.origin = origin;
+        this.cause = cause;
+    }
+
+    public FailedPentoReadResponse(PentoQuery pentoQuery, Throwable cause) {
+        this.pentoQuery = pentoQuery;
+        this.cause = cause;
     }
 
     @Override

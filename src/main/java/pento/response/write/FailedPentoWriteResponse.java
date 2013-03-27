@@ -16,7 +16,7 @@ public class FailedPentoWriteResponse implements PentoWriteResponse {
         this.cause = cause;
     }
 
-    public FailedPentoWriteResponse(Pento pento, Throwable cause, String origin) {
+    public FailedPentoWriteResponse(Pento pento, String origin, Throwable cause) {
         this.pento = pento;
         this.cause = cause;
         this.origin = origin;
