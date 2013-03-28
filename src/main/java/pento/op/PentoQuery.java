@@ -7,5 +7,4 @@ public interface PentoQuery<T> {
 
     T getQuery();
 
-    void setQuery(T query);
 }

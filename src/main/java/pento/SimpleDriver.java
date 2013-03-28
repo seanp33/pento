@@ -68,7 +68,6 @@ public class SimpleDriver {
                 StringBuffer sb = new StringBuffer();
                 sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
                 sb.append("READ: " + response.getOrigin() + " with confidence " + response.getConfidence() + "\n");
-
                 sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
                 System.out.println(sb);
                 handleShutDown();
@@ -101,10 +100,5 @@ class SubjectQuery implements PentoQuery<String> {
     @Override
     public String getQuery() {
         return query;
-    }
-
-    @Override
-    public void setQuery(String query) {
-        this.query = query;
     }
 }
