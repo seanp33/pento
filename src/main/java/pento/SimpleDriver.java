@@ -1,58 +1,110 @@
 package pento;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pento.handler.PentoReadHandler;
 import pento.handler.PentoWriteHandler;
 import pento.model.EmptyDistribution;
 import pento.model.Pento;
 import pento.model.Statement;
+import pento.op.PentoQuery;
+import pento.response.read.FailedPentoReadResponse;
+import pento.response.read.PentoReadResponse;
 import pento.response.write.FailedPentoWriteResponse;
 import pento.response.write.PentoWriteResponse;
 import pento.store.DefaultPentoStore;
-import pento.store.mock.worker.RandomLatencyWorkerFactory;
+import pento.store.mock.worker.RandomLatencyReadResponseProducingWorkerFactory;
+import pento.store.mock.worker.RandomLatencyWriteResponseProducingWorkerFactory;
 import pento.store.worker.EmptyContext;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleDriver {
 
+    private static final DefaultPentoStore store = new DefaultPentoStore(
+            new RandomLatencyReadResponseProducingWorkerFactory(),
+            new RandomLatencyWriteResponseProducingWorkerFactory());
+
+    private static final AtomicInteger writeCount = new AtomicInteger(0);
+    private static final AtomicInteger readCount = new AtomicInteger(0);
+
+    private static void handleShutDown() {
+        if (writeCount.get() == 10 && readCount.get() == 10) {
+            try {
+                store.close();
+                System.exit(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
-        // TODO: fleshout the read worker factory impl. passing in null for the time being
-        final DefaultPentoStore store = new DefaultPentoStore(null, new RandomLatencyWorkerFactory());
-
-        PentoWriteHandler handler = new PentoWriteHandler() {
-            int count = 0;
+        PentoWriteHandler writeHandler = new PentoWriteHandler() {
 
             @Override
             public void success(PentoWriteResponse response) {
-                count += 1;
+                writeCount.incrementAndGet();
                 StringBuffer sb = new StringBuffer();
-                sb.append("Success! Pento written:\n");
-                sb.append(response.getPento());
-                sb.append("\n");
-                sb.append(response.getConfidence());
-                sb.append("\n------------------------\n");
-                System.out.println(sb.toString());
-                if (count == 10) {
-                    try {
-                        store.close();
-                        System.exit(0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
+                sb.append("WRITE: " + response.getOrigin() + " with confidence " + response.getConfidence() + "\n");
+                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
+                System.out.println(sb);
+                handleShutDown();
             }
 
             @Override
             public void failure(FailedPentoWriteResponse response) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                writeCount.incrementAndGet();
             }
         };
 
-        EmptyContext context = new EmptyContext();
+        PentoReadHandler readHandler = new PentoReadHandler() {
+            @Override
+            public void success(PentoReadResponse response) {
+                readCount.incrementAndGet();
+                StringBuffer sb = new StringBuffer();
+                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
+                sb.append("READ: " + response.getOrigin() + " with confidence " + response.getConfidence() + "\n");
+
+                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
+                System.out.println(sb);
+                handleShutDown();
+            }
+
+            @Override
+            public void failure(FailedPentoReadResponse response) {
+                readCount.incrementAndGet();
+            }
+        };
+
         for (int i = 0; i < 10; i++) {
-            store.write(
-                    new Pento(Arrays.asList(new Statement("urn:sean#" + i, "color", "blue")),
-                            System.currentTimeMillis(), "TEST"), new EmptyDistribution(), handler, context);
+            long time = System.currentTimeMillis();
+            final Statement stmt = new Statement("urn:sean#" + i, "color", "blue");
+            store.write(new Pento(Arrays.asList(stmt), time, "TEST"), new EmptyDistribution(), writeHandler, new EmptyContext());
+            store.read(new SubjectQuery(stmt.getSubject()), new EmptyDistribution(), readHandler, new EmptyContext());
+
         }
+    }
+}
+
+class SubjectQuery implements PentoQuery<String> {
+
+    private String query;
+
+    SubjectQuery(String subject) {
+        this.query = "select * from pento where subject = '" + subject + "'";
+    }
+
+    @Override
+    public String getQuery() {
+        return query;
+    }
+
+    @Override
+    public void setQuery(String query) {
+        this.query = query;
     }
 }

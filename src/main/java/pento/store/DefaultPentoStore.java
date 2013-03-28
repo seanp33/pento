@@ -8,6 +8,8 @@ import pento.handler.PentoWriteHandler;
 import pento.model.Distribution;
 import pento.model.Pento;
 import pento.op.PentoQuery;
+import pento.response.read.FailedPentoReadResponse;
+import pento.response.read.PentoReadResponse;
 import pento.response.write.FailedPentoWriteResponse;
 import pento.response.write.PentoWriteResponse;
 import pento.store.worker.PentoStoreWorker;
@@ -63,9 +65,22 @@ public class DefaultPentoStore implements PentoStore {
     }
 
     @Override
-    public void read(PentoQuery query, PentoReadHandler handler) {
-        // TODO: implement
+    public void read(final PentoQuery query, final Distribution distribution, final PentoReadHandler handler, final OperationContext operationContext) {
+        List<PentoStoreWorker> workers = readWorkerFactory.getWorkers(operationContext, distribution);
+        for (PentoStoreWorker worker : workers) {
+            Callable callable = worker.execute(query);
+            ListenableFuture<PentoReadResponse> future = ioExecutor.submit(callable);
+
+            Futures.addCallback(future, new FutureCallback<PentoReadResponse>() {
+                public void onSuccess(PentoReadResponse response) {
+                    handler.success(response);
+                }
+
+                public void onFailure(Throwable thrown) {
+                    logger.error(thrown.getMessage());
+                    handler.failure(new FailedPentoReadResponse(query, thrown));
+                }
+            });
+        }
     }
-
-
 }
