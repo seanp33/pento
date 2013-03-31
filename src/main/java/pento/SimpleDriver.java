@@ -81,8 +81,8 @@ public class SimpleDriver {
 
         for (int i = 0; i < 10; i++) {
             long time = System.currentTimeMillis();
-            final Statement stmt = new Statement("urn:sean#" + i, "color", "blue");
-            store.write(new Pento(Arrays.asList(stmt), time, "TEST"), new EmptyDistribution(), writeHandler, new EmptyContext());
+            final Statement stmt = new Statement("urn:sean#" + i, "color", "blue", time, "TEST");
+            store.write(new Pento(Arrays.asList(stmt)), new EmptyDistribution(), writeHandler, new EmptyContext());
             store.read(new SubjectQuery(stmt.getSubject()), new EmptyDistribution(), readHandler, new EmptyContext());
 
         }
