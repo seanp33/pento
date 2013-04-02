@@ -1,14 +1,18 @@
 package pento.model;
 
-public interface Distribution<V>{
+import com.google.common.collect.Multimap;
 
-    void addMember(String key, V member);
+import java.util.Map;
 
-    void removeMember(String key);
+public interface Distribution<K, V>{
 
-    boolean hasMember(String key);
+    void addMember(K key, V member);
 
-    Iterable<V> getMembers();
+    void removeMember(K key);
+
+    boolean hasMember(K key);
+
+    Map<K, V> getMembers();
 
     boolean isEmpty();
 

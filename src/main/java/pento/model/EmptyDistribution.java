@@ -1,11 +1,12 @@
 package pento.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An implementation of {@link Distribution} having no entries
  */
-public class EmptyDistribution implements Distribution<Object> {
+public class EmptyDistribution implements Distribution<String, Object> {
 
     @Override
     public void addMember(String key, Object o) {
@@ -23,8 +24,8 @@ public class EmptyDistribution implements Distribution<Object> {
     }
 
     @Override
-    public Iterable<Object> getMembers() {
-        return new ArrayList<Object>();
+    public Map<String, Object> getMembers() {
+        return new HashMap<String, Object>();
     }
 
     @Override

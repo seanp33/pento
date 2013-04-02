@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * PentoStoreWorkerFactory impl for producing new instances of RandomLatencyReadResponseProducingWorker
  */
-public class RandomLatencyReadResponseProducingWorkerFactory implements PentoStoreWorkerFactory<PentoQuery, EmptyContext, Object> {
+public class RandomLatencyReadResponseProducingWorkerFactory implements PentoStoreWorkerFactory<PentoQuery, EmptyContext, Object, Object> {
 
     @Override
-    public List<PentoStoreWorker<PentoQuery>> getWorkers(EmptyContext configuration, Distribution<Object> distribution) {
+    public List<PentoStoreWorker<PentoQuery>> getWorkers(EmptyContext configuration, Distribution<Object, Object> distribution) {
         ArrayList<PentoStoreWorker<PentoQuery>> workers = new ArrayList<PentoStoreWorker<PentoQuery>>();
         workers.add(new RandomLatencyReadResponseProducingWorker());
         return workers;

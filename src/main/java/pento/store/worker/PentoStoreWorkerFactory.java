@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Factory interface for producing PentoStoreWorker instances
  */
-public interface PentoStoreWorkerFactory<Source, InstanceConfiguration, Endpoint> {
+public interface PentoStoreWorkerFactory<Source, InstanceConfiguration, Member, Endpoint> {
 
-    public List<PentoStoreWorker<Source>> getWorkers(InstanceConfiguration instanceConfiguration, Distribution<Endpoint> distribution);
+    public List<PentoStoreWorker<Source>> getWorkers(InstanceConfiguration instanceConfiguration, Distribution<Member, Endpoint> distribution);
 
 }
