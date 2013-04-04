@@ -6,14 +6,23 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static pento.model.ModelTestUtils.newSampleStatement;
 
 public class StatementTest {
+
+    @Test
+    public void testEqualsAndHashcode() {
+        Statement s1 = newSampleStatement();
+        Statement s2 = newSampleStatement();
+        assertEquals(s1, s2);
+        assertEquals(s1.hashCode(), s2.hashCode());
+    }
 
     @Test
     public void testConstruction() {
         Statement s1 = newSampleStatement();
         assertThat(s1.getId(), is(-1L));
-        assertThat(s1.getGeneration(), is(0));
+        assertTrue(s1.getGeneration().isEmpty());
         assertThat(s1.getSubject(), is("foaf:Person#1"));
         assertThat(s1.getPredicate(), is("foaf:geekcode"));
         assertEquals("GFA", s1.getObject());
@@ -54,7 +63,7 @@ public class StatementTest {
 
         assertThat(s1.isDeleted(), is(true));
         assertEquals(fakeVals[0], mutated.getId());
-        assertEquals(fakeVals[1], mutated.getGeneration());
+        assertThat(mutated.getGeneration().get(mutated.getOrigin()), is(1));
         assertThat(mutated.getSubject(), is("foaf:Person#1"));
         assertThat(mutated.getPredicate(), is("foaf:geekcode"));
         assertEquals("GCS", mutated.getObject());
@@ -66,9 +75,5 @@ public class StatementTest {
     public void testIllegalMutateCasedByNoId() {
         Statement s1 = newSampleStatement();
         s1.mutate("illegal");
-    }
-
-    public static Statement newSampleStatement() {
-        return new Statement("foaf:Person#1", "foaf:geekcode", "GFA", System.currentTimeMillis(), "TEST");
     }
 }

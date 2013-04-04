@@ -8,7 +8,20 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import static pento.model.ModelTestUtils.newRandomStatement;
+
 public class PentoTest {
+
+    @Test
+    public void testEqualsAndHashcode() {
+        Statement s1 = newRandomStatement();
+        Statement s2 = newRandomStatement();
+        Statement s3 = newRandomStatement();
+        Pento p1 = new Pento(Arrays.asList(s1, s2, s3));
+        Pento p2 = new Pento(Arrays.asList(s1, s2, s3));
+        assertEquals(p1, p2);
+        assertEquals(p1.hashCode(), p2.hashCode());
+    }
 
     @Test
     public void testMutation() throws Exception {

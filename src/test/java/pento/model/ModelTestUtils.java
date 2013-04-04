@@ -1,7 +1,10 @@
 package pento.model;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric;
 import static org.apache.commons.lang.RandomStringUtils.randomNumeric;
 
 public class ModelTestUtils {
@@ -21,8 +24,18 @@ public class ModelTestUtils {
         int genVal = Integer.parseInt(randomNumeric(1));
         Field generation = Statement.class.getDeclaredField("generation");
         generation.setAccessible(true);
-        generation.setInt(statement, genVal);
+        Map<String, Integer> genMap = new HashMap<String, Integer>();
+        genMap.put(statement.getOrigin(), 1);
+        generation.set(statement, genMap);
 
         return new int[]{idVal, genVal};
     }
+
+    public static Statement newSampleStatement() {
+        return new Statement("foaf:Person#1", "foaf:geekcode", "GFA", System.currentTimeMillis(), "TEST");
+    }
+
+    public static Statement newRandomStatement() {
+            return new Statement("test:"+randomAlphanumeric(3), "test:" + randomAlphanumeric(3), randomAlphanumeric(3), System.currentTimeMillis(), "TEST");
+        }
 }

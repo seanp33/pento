@@ -1,10 +1,14 @@
 package pento.model;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Statement {
 
     private long id = -1L;
 
-    private int generation;
+    private Map<String, Integer> generation = new HashMap<String, Integer>();
 
     private boolean deleted;
 
@@ -52,8 +56,8 @@ public class Statement {
         return id;
     }
 
-    public int getGeneration() {
-        return generation;
+    public Map<String, Integer> getGeneration() {
+        return Collections.unmodifiableMap(generation);
     }
 
     public boolean isDeleted() {
@@ -102,8 +106,8 @@ public class Statement {
         Statement statement = (Statement) o;
 
         if (deleted != statement.deleted) return false;
-        if (generation != statement.generation) return false;
         if (id != statement.id) return false;
+        if (!generation.equals(statement.generation)) return false;
         if (!object.equals(statement.object)) return false;
         if (!origin.equals(statement.origin)) return false;
         if (!predicate.equals(statement.predicate)) return false;
@@ -116,7 +120,7 @@ public class Statement {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + generation;
+        result = 31 * result + generation.hashCode();
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + subject.hashCode();
         result = 31 * result + predicate.hashCode();
@@ -125,4 +129,5 @@ public class Statement {
         result = 31 * result + origin.hashCode();
         return result;
     }
+
 }
