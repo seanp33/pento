@@ -1,14 +1,15 @@
 package pento.model;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Statement {
 
     private long id = -1L;
 
-    private Map<String, Integer> generation = new HashMap<String, Integer>();
+    // order matters in pento's vclocks
+    private LinkedHashMap<String, Integer> generation = new LinkedHashMap<String, Integer>();
 
     private boolean deleted;
 
