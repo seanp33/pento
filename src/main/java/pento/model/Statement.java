@@ -11,7 +11,7 @@ public class Statement {
     // order matters in pento's vclocks
     private LinkedHashMap<String, Integer> generation = new LinkedHashMap<String, Integer>();
 
-    private boolean deleted;
+    private boolean tombstone;
 
     private String subject;
 
@@ -41,16 +41,16 @@ public class Statement {
     }
 
     public Statement mutate(Object object) {
-        if (this.deleted) throw new RuntimeException("You can not mutate a deleted statement");
+        if (this.tombstone) throw new RuntimeException("You can not mutate a deleted statement");
         if (this.id < 0) throw new RuntimeException("You can not mutate a statement which has not been saved");
         Statement s = new Statement(this);
         s.object = object;
-        this.deleted = true;
+        this.tombstone = true;
         return s;
     }
 
     public void delete() {
-        this.deleted = true;
+        this.tombstone = true;
     }
 
     public long getId() {
@@ -62,7 +62,7 @@ public class Statement {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return tombstone;
     }
 
     public String getSubject() {
@@ -90,7 +90,7 @@ public class Statement {
         return "Statement{" +
                 "id=" + id +
                 ", generation=" + generation +
-                ", deleted=" + deleted +
+                ", tombstone=" + tombstone +
                 ", subject='" + subject + '\'' +
                 ", predicate='" + predicate + '\'' +
                 ", object=" + object +
@@ -106,7 +106,7 @@ public class Statement {
 
         Statement statement = (Statement) o;
 
-        if (deleted != statement.deleted) return false;
+        if (tombstone != statement.tombstone) return false;
         if (id != statement.id) return false;
         if (!generation.equals(statement.generation)) return false;
         if (!object.equals(statement.object)) return false;
@@ -122,7 +122,7 @@ public class Statement {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + generation.hashCode();
-        result = 31 * result + (deleted ? 1 : 0);
+        result = 31 * result + (tombstone ? 1 : 0);
         result = 31 * result + subject.hashCode();
         result = 31 * result + predicate.hashCode();
         result = 31 * result + object.hashCode();
