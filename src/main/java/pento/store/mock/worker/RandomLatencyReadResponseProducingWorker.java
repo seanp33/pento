@@ -8,7 +8,7 @@ import pento.store.worker.PentoStoreWorker;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-public class RandomLatencyReadResponseProducingWorker implements PentoStoreWorker<PentoQuery> {
+public class RandomLatencyReadResponseProducingWorker implements PentoStoreWorker<Object, PentoQuery> {
 
     @Override
     public Callable execute(final PentoQuery query) {
@@ -19,6 +19,11 @@ public class RandomLatencyReadResponseProducingWorker implements PentoStoreWorke
                 return new MockPentoReadResponse(query);
             }
         };
+    }
+
+    @Override
+    public Object location() {
+        return "";
     }
 
     private static int randRange(int min, int max) {
