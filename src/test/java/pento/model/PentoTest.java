@@ -39,17 +39,8 @@ public class PentoTest {
 
         Iterator<Statement> it = statements.iterator();
         Statement s1 = it.next();
-        statements.add(s1.mutate("GFC"));
-
-        assertThat(statements.size(), is(4));
-        it = statements.iterator();
-        s1 = it.next();
-        assertThat(s1.isDeleted(), is(true));
-
-        it.next();
-        it.next();
-        Statement s1b = it.next();
-        assertEquals("GFC", s1b.getObject());
-
+        s1.update(("GFC"));
+        assertEquals("GFC", s1.getObject());
+        assertThat(s1.getCommand(), is(Command.UPDATE));
     }
 }

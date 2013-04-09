@@ -28,6 +28,11 @@ public class ModelTestUtils {
         genMap.put(statement.getOrigin(), 1);
         generation.set(statement, genMap);
 
+
+        Field command = Statement.class.getDeclaredField("command");
+        command.setAccessible(true);
+        command.set(statement, Command.SAVED);
+
         return new int[]{idVal, genVal};
     }
 
@@ -36,6 +41,6 @@ public class ModelTestUtils {
     }
 
     public static Statement newRandomStatement() {
-            return new Statement("test:"+randomAlphanumeric(3), "test:" + randomAlphanumeric(3), randomAlphanumeric(3), System.currentTimeMillis(), "TEST");
-        }
+        return new Statement("test:" + randomAlphanumeric(3), "test:" + randomAlphanumeric(3), randomAlphanumeric(3), System.currentTimeMillis(), "TEST");
+    }
 }

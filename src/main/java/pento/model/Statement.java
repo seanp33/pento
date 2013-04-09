@@ -11,7 +11,7 @@ public class Statement {
     // order matters in pento's vclocks
     private LinkedHashMap<String, Integer> generation = new LinkedHashMap<String, Integer>();
 
-    private boolean tombstone;
+    private Command command = Command.NONE;
 
     private String subject;
 
@@ -19,7 +19,7 @@ public class Statement {
 
     private Object object;
 
-    private Long timestamp;
+    private Long timestamp = -1L;
 
     private String origin;
 
@@ -32,37 +32,36 @@ public class Statement {
         this.object = object;
         this.timestamp = timestamp;
         this.origin = origin;
+        this.command = Command.ASSERT;
     }
 
-    public Statement(Statement s) {
-        this(s.subject, s.predicate, s.object, System.currentTimeMillis(), s.origin);
-        this.id = s.id;
-        this.generation = s.generation;
+    public Statement(String subject, String predicate, Object object, String origin) {
+        this(subject, predicate, object, -1L, origin);
     }
 
-    public Statement mutate(Object object) {
-        if (this.tombstone) throw new RuntimeException("You can not mutate a deleted statement");
-        if (this.id < 0) throw new RuntimeException("You can not mutate a statement which has not been saved");
-        Statement s = new Statement(this);
-        s.object = object;
-        this.tombstone = true;
-        return s;
+    public void update(Object object) {
+        if (this.command == Command.DELETE) throw new RuntimeException("You can not mutate a deleted statement");
+        if (this.command == Command.ASSERT)
+            throw new RuntimeException("You can not mutate a statement which has not been saved");
+        this.object = object;
+        this.timestamp = System.currentTimeMillis();
+        this.command = Command.UPDATE;
     }
 
     public void delete() {
-        this.tombstone = true;
+        this.command = Command.DELETE;
     }
 
     public long getId() {
         return id;
     }
 
-    public Map<String, Integer> getGeneration() {
-        return Collections.unmodifiableMap(generation);
+    public LinkedHashMap<String, Integer> getGeneration() {
+        return new LinkedHashMap<String, Integer>(generation);
     }
 
-    public boolean isDeleted() {
-        return tombstone;
+    public Command getCommand() {
+        return command;
     }
 
     public String getSubject() {
@@ -90,7 +89,7 @@ public class Statement {
         return "Statement{" +
                 "id=" + id +
                 ", generation=" + generation +
-                ", tombstone=" + tombstone +
+                ", command=" + command +
                 ", subject='" + subject + '\'' +
                 ", predicate='" + predicate + '\'' +
                 ", object=" + object +
@@ -106,14 +105,14 @@ public class Statement {
 
         Statement statement = (Statement) o;
 
-        if (tombstone != statement.tombstone) return false;
         if (id != statement.id) return false;
-        if (!generation.equals(statement.generation)) return false;
-        if (!object.equals(statement.object)) return false;
-        if (!origin.equals(statement.origin)) return false;
-        if (!predicate.equals(statement.predicate)) return false;
-        if (!subject.equals(statement.subject)) return false;
-        if (!timestamp.equals(statement.timestamp)) return false;
+        if (command != statement.command) return false;
+        if (generation != null ? !generation.equals(statement.generation) : statement.generation != null) return false;
+        if (object != null ? !object.equals(statement.object) : statement.object != null) return false;
+        if (origin != null ? !origin.equals(statement.origin) : statement.origin != null) return false;
+        if (predicate != null ? !predicate.equals(statement.predicate) : statement.predicate != null) return false;
+        if (subject != null ? !subject.equals(statement.subject) : statement.subject != null) return false;
+        if (timestamp != null ? !timestamp.equals(statement.timestamp) : statement.timestamp != null) return false;
 
         return true;
     }
@@ -121,14 +120,13 @@ public class Statement {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + generation.hashCode();
-        result = 31 * result + (tombstone ? 1 : 0);
-        result = 31 * result + subject.hashCode();
-        result = 31 * result + predicate.hashCode();
-        result = 31 * result + object.hashCode();
-        result = 31 * result + timestamp.hashCode();
-        result = 31 * result + origin.hashCode();
+        result = 31 * result + (generation != null ? generation.hashCode() : 0);
+        result = 31 * result + (command != null ? command.hashCode() : 0);
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        result = 31 * result + (predicate != null ? predicate.hashCode() : 0);
+        result = 31 * result + (object != null ? object.hashCode() : 0);
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        result = 31 * result + (origin != null ? origin.hashCode() : 0);
         return result;
     }
-
 }
