@@ -16,8 +16,8 @@ import java.util.List;
 public class RandomLatencyReadResponseProducingWorkerFactory implements PentoStoreWorkerFactory<PentoQuery, EmptyContext, Object, Object> {
 
     @Override
-    public List<PentoStoreWorker<PentoQuery>> getWorkers(EmptyContext configuration, Distribution<Object, Object> distribution) {
-        ArrayList<PentoStoreWorker<PentoQuery>> workers = new ArrayList<PentoStoreWorker<PentoQuery>>();
+    public List<PentoStoreWorker<Object, PentoQuery>> getWorkers(EmptyContext configuration, Distribution<Object, Object> distribution) {
+        ArrayList<PentoStoreWorker<Object, PentoQuery>> workers = new ArrayList<PentoStoreWorker<Object, PentoQuery>>();
         workers.add(new RandomLatencyReadResponseProducingWorker());
         return workers;
     }

@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface PentoStoreWorkerFactory<Source, InstanceConfiguration, Member, Endpoint> {
 
-    public List<PentoStoreWorker<Source>> getWorkers(InstanceConfiguration instanceConfiguration, Distribution<Member, Endpoint> distribution);
+    public List<PentoStoreWorker<Member, Source>> getWorkers(InstanceConfiguration instanceConfiguration, Distribution<Member, Endpoint> distribution);
 
 }
