@@ -32,6 +32,7 @@ public class Statement {
         this.object = object;
         this.timestamp = timestamp;
         this.origin = origin;
+        generation.put(origin, 0);
         this.command = Command.ASSERT;
     }
 

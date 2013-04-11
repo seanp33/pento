@@ -1,6 +1,5 @@
 package pento.response.write;
 
-import pento.model.Confidence;
 import pento.model.Pento;
 import pento.response.Response;
 

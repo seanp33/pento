@@ -11,18 +11,10 @@ import static pento.model.ModelTestUtils.newSampleStatement;
 public class StatementTest {
 
     @Test
-    public void testEqualsAndHashcode() {
-        Statement s1 = newSampleStatement();
-        Statement s2 = newSampleStatement();
-        assertEquals(s1, s2);
-        assertEquals(s1.hashCode(), s2.hashCode());
-    }
-
-    @Test
     public void testConstruction() {
         Statement s1 = newSampleStatement();
         assertThat(s1.getId(), is(-1L));
-        assertTrue(s1.getGeneration().isEmpty());
+        assertThat(s1.getGeneration().get(s1.getOrigin()), is(0));
         assertThat(s1.getSubject(), is("foaf:Person#1"));
         assertThat(s1.getPredicate(), is("foaf:geekcode"));
         assertEquals("GFA", s1.getObject());
