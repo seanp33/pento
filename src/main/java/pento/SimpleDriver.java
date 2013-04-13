@@ -10,6 +10,8 @@ import pento.response.read.PentoReadResponse;
 import pento.response.write.FailedPentoWriteResponse;
 import pento.response.write.PentoWriteResponse;
 import pento.store.DefaultPentoStore;
+import pento.store.mock.MockPentoReadResponse;
+import pento.store.mock.MockPentoWriteResponse;
 import pento.store.mock.worker.RandomLatencyReadResponseProducingWorkerFactory;
 import pento.store.mock.worker.RandomLatencyWriteResponseProducingWorkerFactory;
 import pento.store.worker.EmptyContext;
@@ -41,9 +43,9 @@ public class SimpleDriver {
 
     public static void main(String[] args) throws Exception {
 
-        PentoCallback readCallback = new PentoCallback<PentoReadResponse, FailedPentoReadResponse>() {
+        PentoCallback readCallback = new PentoCallback<MockPentoReadResponse, Throwable>() {
             @Override
-            public void callback(PentoReadResponse pentoReadResponse) {
+            public void callback(MockPentoReadResponse pentoReadResponse) {
                 readCount.incrementAndGet();
                 StringBuffer sb = new StringBuffer();
                 sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
@@ -54,16 +56,16 @@ public class SimpleDriver {
             }
 
             @Override
-            public void error(FailedPentoReadResponse failedPentoReadResponse) {
+            public void error(Throwable throwable) {
                 readCount.incrementAndGet();
                 System.out.println("FAILED READ!!! ");
                 tryQuit();
             }
         };
 
-        PentoCallback writeCallback = new PentoCallback<PentoWriteResponse, FailedPentoWriteResponse>() {
+        PentoCallback writeCallback = new PentoCallback<MockPentoWriteResponse, Throwable>() {
             @Override
-            public void callback(PentoWriteResponse success) {
+            public void callback(MockPentoWriteResponse success) {
                 writeCount.incrementAndGet();
                 StringBuffer sb = new StringBuffer();
                 sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
@@ -74,7 +76,7 @@ public class SimpleDriver {
             }
 
             @Override
-            public void error(FailedPentoWriteResponse failed) {
+            public void error(Throwable throwable) {
                 writeCount.incrementAndGet();
                 System.out.println("FAILED WRITE!!! ");
                 tryQuit();

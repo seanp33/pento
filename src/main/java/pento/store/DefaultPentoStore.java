@@ -48,10 +48,10 @@ public class DefaultPentoStore implements PentoStore {
         List<PentoStoreWorker> workers = writeWorkerFactory.getWorkers(operationContext, distribution);
         for (PentoStoreWorker worker : workers) {
             Callable callable = worker.execute(pento);
-            ListenableFuture<PentoWriteResponse> future = ioExecutor.submit(callable);
+            ListenableFuture future = ioExecutor.submit(callable);
 
-            Futures.addCallback(future, new FutureCallback<PentoWriteResponse>() {
-                public void onSuccess(PentoWriteResponse response) {
+            Futures.addCallback(future, new FutureCallback() {
+                public void onSuccess(Object response) {
                     handler.callback(response);
 
                     // OR
@@ -61,7 +61,7 @@ public class DefaultPentoStore implements PentoStore {
 
                 public void onFailure(Throwable thrown) {
                     logger.error(thrown.getMessage());
-                    handler.error(new FailedPentoWriteResponse(pento, thrown));
+                    handler.error(thrown);
                 }
             });
         }
@@ -72,10 +72,10 @@ public class DefaultPentoStore implements PentoStore {
         List<PentoStoreWorker> workers = readWorkerFactory.getWorkers(operationContext, distribution);
         for (PentoStoreWorker worker : workers) {
             Callable callable = worker.execute(query);
-            ListenableFuture<PentoReadResponse> future = ioExecutor.submit(callable);
+            ListenableFuture future = ioExecutor.submit(callable);
 
-            Futures.addCallback(future, new FutureCallback<PentoReadResponse>() {
-                public void onSuccess(PentoReadResponse response) {
+            Futures.addCallback(future, new FutureCallback() {
+                public void onSuccess(Object response) {
                     handler.callback(response);
 
                     // OR
@@ -84,8 +84,8 @@ public class DefaultPentoStore implements PentoStore {
                 }
 
                 public void onFailure(Throwable thrown) {
-                    logger.error(thrown.    getMessage());
-                    handler.error(new FailedPentoReadResponse(query, thrown));
+                    logger.error(thrown.getMessage());
+                    handler.error(thrown);
                 }
             });
         }
