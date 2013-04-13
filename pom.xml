@@ -57,6 +57,14 @@
         <developerConnection>scm:git://github.com:seanp33/pento.git</developerConnection>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-seanp33-dev-pento</id>
+            <name>seanp33-dev-pento</name>
+            <url>https://api.bintray.com/maven/seanp33/dev/pento</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
