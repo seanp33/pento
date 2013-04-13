@@ -1,7 +1,5 @@
 package pento.model;
 
-import com.google.common.collect.Multimap;
-
 import java.util.Map;
 
 public interface Distribution<K, V>{

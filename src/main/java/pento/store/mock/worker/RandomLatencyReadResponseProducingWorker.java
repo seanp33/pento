@@ -1,7 +1,6 @@
 package pento.store.mock.worker;
 
 import pento.op.PentoQuery;
-import pento.response.read.PentoReadResponse;
 import pento.store.mock.MockPentoReadResponse;
 import pento.store.worker.PentoStoreWorker;
 

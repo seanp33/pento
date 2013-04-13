@@ -3,7 +3,6 @@ package pento.store.mock;
 import pento.model.Confidence;
 import pento.model.Pento;
 import pento.op.PentoQuery;
-import pento.response.read.PentoReadResponse;
 
 import java.util.Collections;
 

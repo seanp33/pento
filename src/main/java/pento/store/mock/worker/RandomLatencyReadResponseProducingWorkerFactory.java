@@ -1,7 +1,6 @@
 package pento.store.mock.worker;
 
 import pento.model.Distribution;
-import pento.model.Pento;
 import pento.op.PentoQuery;
 import pento.store.worker.EmptyContext;
 import pento.store.worker.PentoStoreWorker;

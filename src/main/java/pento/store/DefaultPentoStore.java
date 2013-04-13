@@ -7,10 +7,6 @@ import pento.handler.PentoCallback;
 import pento.model.Distribution;
 import pento.model.Pento;
 import pento.op.PentoQuery;
-import pento.response.read.FailedPentoReadResponse;
-import pento.response.read.PentoReadResponse;
-import pento.response.write.FailedPentoWriteResponse;
-import pento.response.write.PentoWriteResponse;
 import pento.store.worker.PentoStoreWorker;
 import pento.store.worker.PentoStoreWorkerFactory;
 

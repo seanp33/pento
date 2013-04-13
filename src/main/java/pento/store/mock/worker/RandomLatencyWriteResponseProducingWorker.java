@@ -1,7 +1,6 @@
 package pento.store.mock.worker;
 
 import pento.model.Pento;
-import pento.response.write.PentoWriteResponse;
 import pento.store.mock.MockPentoWriteResponse;
 import pento.store.worker.PentoStoreWorker;
 
