@@ -3,8 +3,7 @@ package pento.store;
 import com.google.common.util.concurrent.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pento.handler.PentoReadHandler;
-import pento.handler.PentoWriteHandler;
+import pento.handler.PentoCallback;
 import pento.model.Distribution;
 import pento.model.Pento;
 import pento.op.PentoQuery;
@@ -45,7 +44,7 @@ public class DefaultPentoStore implements PentoStore {
     }
 
     @Override
-    public void write(final Pento pento, final Distribution distribution, final PentoWriteHandler handler, final OperationContext operationContext) {
+    public void write(final Pento pento, final Distribution distribution, final PentoCallback handler, final OperationContext operationContext) {
         List<PentoStoreWorker> workers = writeWorkerFactory.getWorkers(operationContext, distribution);
         for (PentoStoreWorker worker : workers) {
             Callable callable = worker.execute(pento);
@@ -53,19 +52,23 @@ public class DefaultPentoStore implements PentoStore {
 
             Futures.addCallback(future, new FutureCallback<PentoWriteResponse>() {
                 public void onSuccess(PentoWriteResponse response) {
-                    handler.success(response);
+                    handler.callback(response);
+
+                    // OR
+                    // handler.rejection();
+                    // handler.error();
                 }
 
                 public void onFailure(Throwable thrown) {
                     logger.error(thrown.getMessage());
-                    handler.failure(new FailedPentoWriteResponse(pento, thrown));
+                    handler.error(new FailedPentoWriteResponse(pento, thrown));
                 }
             });
         }
     }
 
     @Override
-    public void read(final PentoQuery query, final Distribution distribution, final PentoReadHandler handler, final OperationContext operationContext) {
+    public void read(final PentoQuery query, final Distribution distribution, final PentoCallback handler, final OperationContext operationContext) {
         List<PentoStoreWorker> workers = readWorkerFactory.getWorkers(operationContext, distribution);
         for (PentoStoreWorker worker : workers) {
             Callable callable = worker.execute(query);
@@ -73,12 +76,16 @@ public class DefaultPentoStore implements PentoStore {
 
             Futures.addCallback(future, new FutureCallback<PentoReadResponse>() {
                 public void onSuccess(PentoReadResponse response) {
-                    handler.success(response);
+                    handler.callback(response);
+
+                    // OR
+                    // handler.rejection();
+                    // handler.error();
                 }
 
                 public void onFailure(Throwable thrown) {
-                    logger.error(thrown.getMessage());
-                    handler.failure(new FailedPentoReadResponse(query, thrown));
+                    logger.error(thrown.    getMessage());
+                    handler.error(new FailedPentoReadResponse(query, thrown));
                 }
             });
         }

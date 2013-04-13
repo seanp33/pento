@@ -7,7 +7,7 @@ import pento.response.read.PentoReadResponse;
 
 import java.util.Collections;
 
-public class MockPentoReadResponse implements PentoReadResponse {
+public class MockPentoReadResponse {
 
     private PentoQuery query;
 
@@ -15,22 +15,18 @@ public class MockPentoReadResponse implements PentoReadResponse {
         this.query = query;
     }
 
-    @Override
     public Iterable<Pento> getPenti() {
         return Collections.EMPTY_LIST;
     }
 
-    @Override
     public PentoQuery getPentoQuery() {
         return query;
     }
 
-    @Override
     public Confidence getConfidence() {
         return Confidence.LOCAL;
     }
 
-    @Override
     public String getOrigin() {
         return "mock";
     }

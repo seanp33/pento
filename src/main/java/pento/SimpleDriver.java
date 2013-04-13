@@ -1,9 +1,6 @@
 package pento;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pento.handler.PentoReadHandler;
-import pento.handler.PentoWriteHandler;
+import pento.handler.PentoCallback;
 import pento.model.EmptyDistribution;
 import pento.model.Pento;
 import pento.model.Statement;
@@ -29,8 +26,10 @@ public class SimpleDriver {
     private static final AtomicInteger writeCount = new AtomicInteger(0);
     private static final AtomicInteger readCount = new AtomicInteger(0);
 
-    private static void handleShutDown() {
-        if (writeCount.get() == 10 && readCount.get() == 10) {
+    private static final int COUNT = 5;
+
+    private static void tryQuit() {
+        if (writeCount.get() == COUNT && readCount.get() == COUNT) {
             try {
                 store.close();
                 System.exit(0);
@@ -42,48 +41,52 @@ public class SimpleDriver {
 
     public static void main(String[] args) throws Exception {
 
-        PentoWriteHandler writeHandler = new PentoWriteHandler() {
-
+        PentoCallback readCallback = new PentoCallback<PentoReadResponse, FailedPentoReadResponse>() {
             @Override
-            public void success(PentoWriteResponse response) {
-                writeCount.incrementAndGet();
-                StringBuffer sb = new StringBuffer();
-                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
-                sb.append("WRITE: " + response.getOrigin() + " with confidence " + response.getConfidence() + "\n");
-                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
-                System.out.println(sb);
-                handleShutDown();
-            }
-
-            @Override
-            public void failure(FailedPentoWriteResponse response) {
-                writeCount.incrementAndGet();
-            }
-        };
-
-        PentoReadHandler readHandler = new PentoReadHandler() {
-            @Override
-            public void success(PentoReadResponse response) {
+            public void callback(PentoReadResponse pentoReadResponse) {
                 readCount.incrementAndGet();
                 StringBuffer sb = new StringBuffer();
                 sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
-                sb.append("READ: " + response.getOrigin() + " with confidence " + response.getConfidence() + "\n");
+                sb.append("READ: " + pentoReadResponse.getOrigin() + " with confidence " + pentoReadResponse.getConfidence() + "\n");
                 sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
                 System.out.println(sb);
-                handleShutDown();
+                tryQuit();
             }
 
             @Override
-            public void failure(FailedPentoReadResponse response) {
+            public void error(FailedPentoReadResponse failedPentoReadResponse) {
                 readCount.incrementAndGet();
+                System.out.println("FAILED READ!!! ");
+                tryQuit();
             }
         };
 
-        for (int i = 0; i < 10; i++) {
+        PentoCallback writeCallback = new PentoCallback<PentoWriteResponse, FailedPentoWriteResponse>() {
+            @Override
+            public void callback(PentoWriteResponse success) {
+                writeCount.incrementAndGet();
+                StringBuffer sb = new StringBuffer();
+                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
+                sb.append("WRITE: " + success.getOrigin() + " with confidence " + success.getConfidence() + "\n");
+                sb.append(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . \n");
+                System.out.println(sb);
+                tryQuit();
+            }
+
+            @Override
+            public void error(FailedPentoWriteResponse failed) {
+                writeCount.incrementAndGet();
+                System.out.println("FAILED WRITE!!! ");
+                tryQuit();
+            }
+        };
+
+
+        for (int i = 0; i < COUNT; i++) {
             long time = System.currentTimeMillis();
-            final Statement stmt = new Statement("urn:sean#" + i, "color", "blue", time, "TEST");
-            store.write(new Pento(Arrays.asList(stmt)), new EmptyDistribution(), writeHandler, new EmptyContext());
-            store.read(new SubjectQuery(stmt.getSubject()), new EmptyDistribution(), readHandler, new EmptyContext());
+            final Statement stmt = new Statement("urn:sean#" + i, "foaf:mbox", "smonaghan000@gmail.com", time, "TEST");
+            store.write(new Pento(Arrays.asList(stmt)), new EmptyDistribution(), writeCallback, new EmptyContext());
+            store.read(new SubjectQuery(stmt.getSubject()), new EmptyDistribution(), readCallback, new EmptyContext());
 
         }
     }

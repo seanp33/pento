@@ -5,7 +5,8 @@ import pento.response.write.FailedPentoWriteResponse;
 import pento.response.write.PentoWriteResponse;
 
 /**
- *
+ * @see PentoCallback
+ * @deprecated
  */
 public interface PentoWriteHandler {
 

@@ -12,9 +12,9 @@ public class RandomLatencyReadResponseProducingWorker implements PentoStoreWorke
 
     @Override
     public Callable execute(final PentoQuery query) {
-        return new Callable<PentoReadResponse>() {
+        return new Callable<MockPentoReadResponse>() {
             @Override
-            public PentoReadResponse call() throws Exception {
+            public MockPentoReadResponse call() throws Exception {
                 Thread.sleep(randRange(1000, 7000));
                 return new MockPentoReadResponse(query);
             }

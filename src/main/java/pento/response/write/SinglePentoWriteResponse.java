@@ -3,6 +3,11 @@ package pento.response.write;
 import pento.model.Confidence;
 import pento.model.Pento;
 
+/**
+ * @deprecated
+ *
+ * @see pento.handler.PentoCallback
+ */
 public class SinglePentoWriteResponse implements PentoWriteResponse {
 
     private Pento pento;

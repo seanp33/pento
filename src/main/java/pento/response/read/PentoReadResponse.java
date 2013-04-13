@@ -4,10 +4,14 @@ import pento.model.Pento;
 import pento.op.PentoQuery;
 import pento.response.Response;
 
-public interface PentoReadResponse extends Response {
+/**
+ * @see pento.handler.PentoCallback
+ * @deprecated
+ */
+public abstract class PentoReadResponse implements Response {
 
-    Iterable<Pento> getPenti();
+    public abstract Iterable<Pento> getPenti();
 
-    PentoQuery getPentoQuery();
+    public abstract PentoQuery getPentoQuery();
 
 }

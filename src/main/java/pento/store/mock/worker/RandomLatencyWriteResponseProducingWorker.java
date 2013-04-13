@@ -12,9 +12,9 @@ public class RandomLatencyWriteResponseProducingWorker implements PentoStoreWork
 
     @Override
     public Callable execute(final Pento pento) {
-        return new Callable<PentoWriteResponse>() {
+        return new Callable<MockPentoWriteResponse>() {
             @Override
-            public PentoWriteResponse call() throws Exception {
+            public MockPentoWriteResponse call() throws Exception {
                 Thread.sleep(randRange(1000, 7000));
                 return new MockPentoWriteResponse(pento);
             }

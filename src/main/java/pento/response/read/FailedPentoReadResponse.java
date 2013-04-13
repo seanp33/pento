@@ -5,11 +5,14 @@ import pento.model.Pento;
 import pento.op.PentoQuery;
 
 /**
- * Provides the details of a failed Pento read operation. In the case of a complete failure it is possible that
+ * Provides the details of a failed Pento read operation. In the case of a complete error it is possible that
  * the implementation of {@link pento.response.read.PentoReadResponse#getPenti()} will return null or an empty
  * {@link Iterable<Pento>}
+ *
+ * @see pento.handler.PentoCallback
+ * @deprecated
  */
-public class FailedPentoReadResponse implements PentoReadResponse {
+public class FailedPentoReadResponse extends PentoReadResponse {
 
     private PentoQuery pentoQuery;
 

@@ -4,7 +4,11 @@ import pento.model.Confidence;
 import pento.model.Pento;
 import pento.op.PentoQuery;
 
-public class SinglePentoReadResponse implements PentoReadResponse {
+/**
+ * @see pento.handler.PentoCallback
+ * @deprecated
+ */
+public class SuccessfulPentoReadResponse extends PentoReadResponse {
 
     private PentoQuery pentoQuery;
 
@@ -14,10 +18,10 @@ public class SinglePentoReadResponse implements PentoReadResponse {
 
     private Confidence confidence;
 
-    public SinglePentoReadResponse() {
+    public SuccessfulPentoReadResponse() {
     }
 
-    public SinglePentoReadResponse(Iterable<Pento> penti, PentoQuery pentoQuery, Confidence confidence, String origin) {
+    public SuccessfulPentoReadResponse(Iterable<Pento> penti, PentoQuery pentoQuery, Confidence confidence, String origin) {
         this.penti = penti;
         this.pentoQuery = pentoQuery;
         this.confidence = confidence;

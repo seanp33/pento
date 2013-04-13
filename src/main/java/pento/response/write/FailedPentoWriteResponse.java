@@ -3,6 +3,11 @@ package pento.response.write;
 import pento.model.Confidence;
 import pento.model.Pento;
 
+/**
+ * @deprecated
+ *
+ * @see pento.handler.PentoCallback
+ */
 public class FailedPentoWriteResponse implements PentoWriteResponse {
 
     private Pento pento;
@@ -34,11 +39,6 @@ public class FailedPentoWriteResponse implements PentoWriteResponse {
 
     public Throwable getCause() {
         return cause;
-    }
-
-    @Override
-    public Object getBody() {
-        return null;
     }
 
     @Override
