@@ -49,10 +49,6 @@ public class DefaultPentoStore implements PentoStore {
             Futures.addCallback(future, new FutureCallback() {
                 public void onSuccess(Object response) {
                     handler.callback(response);
-
-                    // OR
-                    // handler.rejection();
-                    // handler.error();
                 }
 
                 public void onFailure(Throwable thrown) {
@@ -73,10 +69,6 @@ public class DefaultPentoStore implements PentoStore {
             Futures.addCallback(future, new FutureCallback() {
                 public void onSuccess(Object response) {
                     handler.callback(response);
-
-                    // OR
-                    // handler.rejection();
-                    // handler.error();
                 }
 
                 public void onFailure(Throwable thrown) {
