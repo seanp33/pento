@@ -1,0 +1,16 @@
+shadowman.agent.configuration
+shadowman.bayeux
+shadowman.filter
+shadowman.messaging
+shadowman.pento
+shadowman.pento.db
+shadowman.repository
+shadowman.servlet
+shadowman.simulation.action
+shadowman.simulation.factory
+shadowman.simulation.repository
+shadowman.simulation.scenario
+shadowman.simulation.status
+shadowman.simulation.test
+shadowman.store.generation
+shadowman.topology
