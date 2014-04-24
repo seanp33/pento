@@ -65,6 +65,19 @@
         </repository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>bintray-seanp33-dev-pento</id>
+            <url>http://dl.bintray.com/seanp33/dev</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <build>
         <pluginManagement>
             <plugins>
