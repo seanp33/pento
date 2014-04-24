@@ -52,7 +52,7 @@
     </dependencies>
 
     <scm>
-        <developerConnection>scm:git:git@github.com/seanp33/pento.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:seanp33/pento.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
