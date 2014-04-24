@@ -52,8 +52,8 @@
     </dependencies>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/seanp33/pento.git</developerConnection>
-        <tag>pento-0.1.2</tag>
+        <developerConnection>scm:git:git@github.com/seanp33/pento.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
